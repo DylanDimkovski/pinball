@@ -33,8 +33,11 @@ public:
     unsigned int m_VertexArray{ 0 };
     unsigned int m_FaceElementBuffer{ 0 };
     std::vector<glm::vec3> vertices;
-    std::vector<unsigned int> indices;
+    std::vector<glm::vec3> bounding_box;
     std::vector<glm::vec3> normals;
+    std::vector<unsigned int> indices;
     std::vector<float> texCoords;
     glm::vec3 position{ 0.0f };
+    glm::vec3 size{ 0.0f };
+    glm::vec3 rotation_angle{ 0.0f };
 };

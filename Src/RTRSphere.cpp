@@ -3,19 +3,18 @@
 
 void RTRSphere::Init()
 {
-    position = { 4.3f, 5.0f, 8.0f };
-    const float PI = 3.14159265359;
+    position = { 0.0f, 10.0f, -5.0f };
     float x, y, z, xy;                              // vertex position
     float nx, ny, nz, lengthInv = 1.0f / radius;    // normal
     float s, t;                                     // texCoord
 
-    float sectorStep = (2 * PI) / sectorCount;
-    float stackStep = PI / stackCount;
+    float sectorStep = (2 * glm::pi<float>()) / sectorCount;
+    float stackStep = glm::pi<float>() / stackCount;
     float sectorAngle, stackAngle;
 
     for (int i = 0; i <= stackCount; ++i)
     {
-        stackAngle = PI / 2 - i * stackStep;        // starting from pi/2 to -pi/2
+        stackAngle = glm::pi<float>() / 2 - i * stackStep;        // starting from pi/2 to -pi/2
         xy = radius * cosf(stackAngle);             // r * cos(u)
         z = radius * sinf(stackAngle);              // r * sin(u)
 

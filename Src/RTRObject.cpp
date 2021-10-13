@@ -48,6 +48,8 @@ void RTRObject::End()
     glDeleteVertexArrays(1, &m_VertexArray); m_VertexArray = 0;
     glDeleteBuffers(1, &m_VertexBuffer); m_VertexBuffer = 0;
     glDeleteBuffers(1, &m_FaceElementBuffer); m_FaceElementBuffer = 0;
-    std::vector <glm::vec3>().swap(vertices);
+    std::vector<glm::vec3>().swap(vertices);
+    std::vector<glm::vec3>().swap(normals);
     std::vector<unsigned int>().swap(indices);
+    std::vector <float> ().swap(texCoords);
 }

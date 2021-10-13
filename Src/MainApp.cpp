@@ -203,6 +203,11 @@ void MainApp::UpdateState(unsigned int td_milli)
     m_ModelMatrix = glm::mat4(1.0f);
     m_ViewMatrix = m_Camera->GetViewMatrix();
 
+    for (int i = 0; i < m_Cube->bounding_box.size(); i++) 
+    {
+        m_Cube->bounding_box.at(i) = glm::vec4(m_Cube->bounding_box.at(i), 1.0f) * m_ModelMatrix;
+    }
+
     if (!physics.check_collisionf((RTRCube*)m_Cube, (RTRSphere*)m_Sphere)) 
     {
         m_Sphere->position.y -= 0.001f * m_TimeDelta;
@@ -222,8 +227,8 @@ void MainApp::RenderFrame()
     m_DefaultShader->SetMat4("u_ProjectionMatrix", m_ProjectionMatrix);
     m_DefaultShader->SetCamera("u_Camera", *m_Camera);
     m_DefaultShader->SetLightingModel(*m_LightingModel);
-    m_ModelMatrix = glm::rotate(m_ModelMatrix, glm::radians(20.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-    m_ModelMatrix = glm::scale(m_ModelMatrix, glm::vec3(5.0, 0.5, 10.0));
+    m_ModelMatrix = glm::rotate(m_ModelMatrix, m_Cube->rotation_angle.x, glm::vec3(1.0f, 0.0f, 0.0f));
+    m_ModelMatrix = glm::scale(m_ModelMatrix, m_Cube->size);
     m_DefaultShader->SetMat4("u_ModelMatrix", m_ModelMatrix);
     m_Cube->Render(m_DefaultShader);
 

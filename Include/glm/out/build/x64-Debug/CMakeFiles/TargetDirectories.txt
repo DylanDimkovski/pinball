@@ -1,0 +1,5 @@
+D:/Uni Work/RealTimeGraphics/A2_SURNAME_FIRSTNAME/Include/glm/out/build/x64-Debug/CMakeFiles/install/local.dir
+D:/Uni Work/RealTimeGraphics/A2_SURNAME_FIRSTNAME/Include/glm/out/build/x64-Debug/CMakeFiles/install.dir
+D:/Uni Work/RealTimeGraphics/A2_SURNAME_FIRSTNAME/Include/glm/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+D:/Uni Work/RealTimeGraphics/A2_SURNAME_FIRSTNAME/Include/glm/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
+D:/Uni Work/RealTimeGraphics/A2_SURNAME_FIRSTNAME/Include/glm/out/build/x64-Debug/CMakeFiles/list_install_components.dir

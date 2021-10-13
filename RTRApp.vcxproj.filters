@@ -1,0 +1,247 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Shader Files">
+      <UniqueIdentifier>{b02a00a6-85f5-43d7-a263-0327cb75155c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\skyboxes">
+      <UniqueIdentifier>{542d4040-cab5-42b5-a1e3-a6fce6e37b27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\skyboxes\skybox1">
+      <UniqueIdentifier>{a6d10d56-ea50-4932-b876-82c0eee36688}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\skyboxes\skybox2">
+      <UniqueIdentifier>{1d404353-878b-4db7-9015-cdecd22d3d65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\skyboxes\skybox3">
+      <UniqueIdentifier>{e36573ab-190a-483c-a68b-3b979bbbc7a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\skyboxes\skybox4">
+      <UniqueIdentifier>{1a7cd66c-0892-4899-ac9b-143675c28180}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\skyboxes\skybox5">
+      <UniqueIdentifier>{97bf96b8-f770-4c96-b815-35d53f4f8ece}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\skyboxes\skybox6">
+      <UniqueIdentifier>{d2c01bfe-24b1-4509-b28d-38cb5b246b1a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Src\RTRApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\glad\glad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\MainApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\RTRShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Console.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\RTRObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\RTRSkybox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\RTRTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\RTRCube.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\RTRSphere.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\RTRPhysics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Src\RTRApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\RTRShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Console.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\MainApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\RTRLighting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\RTRObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\RTRCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\RTRSkybox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\RTRTexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\RTRCube.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\RTRSphere.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\RTRPhysics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Src\RTRDefault.vert">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="Src\RTRDefault.geom">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="Src\RTRDefault.frag">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="Src\RTRPlasma.frag">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="Src\RTRPlasma.vert">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="Src\RTRSkybox.frag">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="Src\RTRSkybox.vert">
+      <Filter>Shader Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Src\skyboxs\skybox\back.jpg">
+      <Filter>Resource Files\skyboxes\skybox1</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox\bottom.jpg">
+      <Filter>Resource Files\skyboxes\skybox1</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox\front.jpg">
+      <Filter>Resource Files\skyboxes\skybox1</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox\left.jpg">
+      <Filter>Resource Files\skyboxes\skybox1</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox\right.jpg">
+      <Filter>Resource Files\skyboxes\skybox1</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox\top.jpg">
+      <Filter>Resource Files\skyboxes\skybox1</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox2\back.jpg">
+      <Filter>Resource Files\skyboxes\skybox2</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox2\bottom.jpg">
+      <Filter>Resource Files\skyboxes\skybox2</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox2\front.jpg">
+      <Filter>Resource Files\skyboxes\skybox2</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox2\left.jpg">
+      <Filter>Resource Files\skyboxes\skybox2</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox2\right.jpg">
+      <Filter>Resource Files\skyboxes\skybox2</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox2\top.jpg">
+      <Filter>Resource Files\skyboxes\skybox2</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox3\back.jpg">
+      <Filter>Resource Files\skyboxes\skybox3</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox3\bottom.jpg">
+      <Filter>Resource Files\skyboxes\skybox3</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox3\front.jpg">
+      <Filter>Resource Files\skyboxes\skybox3</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox3\left.jpg">
+      <Filter>Resource Files\skyboxes\skybox3</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox3\right.jpg">
+      <Filter>Resource Files\skyboxes\skybox3</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox3\top.jpg">
+      <Filter>Resource Files\skyboxes\skybox3</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox4\back.jpg">
+      <Filter>Resource Files\skyboxes\skybox4</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox4\bottom.jpg">
+      <Filter>Resource Files\skyboxes\skybox4</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox4\front.jpg">
+      <Filter>Resource Files\skyboxes\skybox4</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox4\left.jpg">
+      <Filter>Resource Files\skyboxes\skybox4</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox4\right.jpg">
+      <Filter>Resource Files\skyboxes\skybox4</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox4\top.jpg">
+      <Filter>Resource Files\skyboxes\skybox4</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox5\back.png">
+      <Filter>Resource Files\skyboxes\skybox5</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox5\bottom.png">
+      <Filter>Resource Files\skyboxes\skybox5</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox5\front.png">
+      <Filter>Resource Files\skyboxes\skybox5</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox5\left.png">
+      <Filter>Resource Files\skyboxes\skybox5</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox5\right.png">
+      <Filter>Resource Files\skyboxes\skybox5</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox5\top.png">
+      <Filter>Resource Files\skyboxes\skybox5</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox6\back.jpg">
+      <Filter>Resource Files\skyboxes\skybox6</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox6\bottom.jpg">
+      <Filter>Resource Files\skyboxes\skybox6</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox6\front.jpg">
+      <Filter>Resource Files\skyboxes\skybox6</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox6\left.jpg">
+      <Filter>Resource Files\skyboxes\skybox6</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox6\right.jpg">
+      <Filter>Resource Files\skyboxes\skybox6</Filter>
+    </Image>
+    <Image Include="Src\skyboxs\skybox6\top.jpg">
+      <Filter>Resource Files\skyboxes\skybox6</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

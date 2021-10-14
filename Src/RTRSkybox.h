@@ -68,11 +68,11 @@ public:
 
     std::vector<std::string> faces
     {
-        "Src/skyboxs/skybox2/right.png",
-        "Src/skyboxs/skybox2/left.png",
-        "Src/skyboxs/skybox2/top.png",
-        "Src/skyboxs/skybox2/bottom.png",
-        "Src/skyboxs/skybox2/front.png",
-        "Src/skyboxs/skybox2/back.png"
+        "Src/skyboxs/skybox7/right.png",
+        "Src/skyboxs/skybox7/left.png",
+        "Src/skyboxs/skybox7/top.png",
+        "Src/skyboxs/skybox7/bottom.png",
+        "Src/skyboxs/skybox7/front.png",
+        "Src/skyboxs/skybox7/back.png"
     };
 };

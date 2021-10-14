@@ -49,7 +49,7 @@ unsigned int RTRTexture::load_skybox(std::vector<std::string> faces)
         unsigned char* data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
         if (data)
         {
-            if (faces[i].at(18) == '2' || faces[i].at(18) == '3' || faces[i].at(18) == '6')
+            if (faces[i].at(18) == '2' || faces[i].at(18) == '3' || faces[i].at(18) == '6' || faces[i].at(18) == '7')
             {
                 glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
             }

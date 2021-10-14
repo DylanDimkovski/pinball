@@ -31,7 +31,7 @@ int MainApp::Init()
     }
 
     // Create and initialise camera
-    m_Camera = new RTRCamera(glm::vec3(0.0, 8.0, 12.0), glm::vec3(0.0, 1.0, 0.0));
+    m_Camera = new RTRCamera(glm::vec3(0.0, 4.5, 14.5), glm::vec3(0.0, 1.0, 0.0));
 
     // Create and initialise lighting model
     m_LightingModel = new RTRLightingModel();
@@ -200,17 +200,11 @@ void MainApp::UpdateState(unsigned int td_milli)
     m_LightingModel->GetLight(0)->Direction = m_Camera->m_Front;
 
     // Setup Model and View matrices
-    m_ModelMatrix = glm::mat4(1.0f);
     m_ViewMatrix = m_Camera->GetViewMatrix();
-
-    for (int i = 0; i < m_Cube->bounding_box.size(); i++) 
-    {
-        m_Cube->bounding_box.at(i) = glm::vec4(m_Cube->bounding_box.at(i), 1.0f) * m_ModelMatrix;
-    }
 
     if (!physics.check_collisionf((RTRCube*)m_Cube, (RTRSphere*)m_Sphere)) 
     {
-        m_Sphere->position.y -= 0.001f * m_TimeDelta;
+        m_Sphere->position.y -= 3.0f * m_TimeDelta / 1000.0f;
     }
 }
 
@@ -227,14 +221,11 @@ void MainApp::RenderFrame()
     m_DefaultShader->SetMat4("u_ProjectionMatrix", m_ProjectionMatrix);
     m_DefaultShader->SetCamera("u_Camera", *m_Camera);
     m_DefaultShader->SetLightingModel(*m_LightingModel);
-    m_ModelMatrix = glm::rotate(m_ModelMatrix, m_Cube->rotation_angle.x, glm::vec3(1.0f, 0.0f, 0.0f));
-    m_ModelMatrix = glm::scale(m_ModelMatrix, m_Cube->size);
-    m_DefaultShader->SetMat4("u_ModelMatrix", m_ModelMatrix);
+    m_DefaultShader->SetMat4("u_ModelMatrix", m_Cube->model_matrix);
     m_Cube->Render(m_DefaultShader);
 
-    m_ModelMatrix = glm::mat4(1.0);
-    m_ModelMatrix = glm::translate(m_ModelMatrix, m_Sphere->position);
-    m_DefaultShader->SetMat4("u_ModelMatrix", m_ModelMatrix);
+    m_Sphere->model_matrix = glm::translate(m_ModelMatrix, m_Sphere->position);
+    m_DefaultShader->SetMat4("u_ModelMatrix", m_Sphere->model_matrix);
     m_Sphere->Render(m_DefaultShader);
 
     // Skybox

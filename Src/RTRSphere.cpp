@@ -3,7 +3,7 @@
 
 void RTRSphere::Init()
 {
-    position = { 0.0f, 10.0f, -4.0f };
+    position = { 0.0f, 10.0f, 7.0f };
     float x, y, z, xy;                              // vertex position
     float nx, ny, nz, lengthInv = 1.0f / radius;    // normal
     float s, t;                                     // texCoord

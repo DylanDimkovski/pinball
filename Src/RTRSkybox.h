@@ -3,11 +3,12 @@
 #include "RTRShader.h"
 #include "RTRCamera.h"
 #include "RTRTexture.h"
+#include "RTRObject.h"
 #include <glad/glad.h>
 #include <glm/ext.hpp>
 #include <vector>
 #include <string>
-class RTRSkybox
+class RTRSkybox : public RTRObject
 {
 public:
     void init();

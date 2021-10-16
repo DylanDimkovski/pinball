@@ -5,47 +5,47 @@
 
 bool RTRPhysics::check_collisionf(RTRCube* cube, RTRSphere* sphere)
 {
-    // Get Center of Sphere 
-    glm::vec3 center(abs(sphere->position) + sphere->radius);
-    glm::mat4 inverse_point = glm::inverse(cube->model_matrix);
+    // Get Closest Point on Cube
+    glm::vec3 closestPoint = ClosestPoint(cube, sphere->position);
 
-    center = glm::vec4(center, 1.0f) * inverse_point;
+    // Find Distance Between Sphere and Closest Point
+    float distSq = glm::length(sphere->position - closestPoint);
 
-    glm::vec3 closest
+    // Get Spheres Radius Squared
+    float radiusSq = sphere->radius * sphere->radius;
+
+    // If Distance is less than sphere size. Then we have collision
+    return distSq < radiusSq * 2.0f;
+}
+
+glm::vec3 RTRPhysics::ClosestPoint(const RTRCube* obb, glm::vec3 point) {
+    
+    // Initalize return and direction
+    glm::vec3 result = obb->position;
+    glm::vec3 dir = point - obb->position;
+
+    // Orientation Matrix Only Works For Objects Rotated on X-Axis
+    glm::mat3 orientation_matrix
     {
-        glm::max(cube->min.x, glm::min(center.x, cube->max.x)),
-        glm::max(cube->min.x, glm::min(center.x, cube->max.x)),
-        glm::max(cube->min.x, glm::min(center.x, cube->max.x))
+        1.0f, 0.0f, 0.0f,
+        0.0f, cosf(obb->rotation_angle.x), sinf(obb->rotation_angle.x),
+        0.0f, -sinf(obb->rotation_angle.x), cosf(obb->rotation_angle.x)
     };
 
-    /*
-    // Get Offset position to account for rotated AABB
-    glm::vec3 pos
-    {
-        cube->position.x,
-        (cube->position.y * cosf(cube->rotation_angle.x)) - (sphere->position.z * sinf(cube->rotation_angle.x)),
-        (cube->position.y * sinf(cube->rotation_angle.x)) + (sphere->position.z * cosf(cube->rotation_angle.x))
-    };
+    // Loop over Rotation Matrix and calculate closest point
+    for (int i = 0; i < 3; ++i) {
+        glm::vec3 axis(orientation_matrix[i][0], orientation_matrix[i][1], orientation_matrix[i][2]);
 
-    // Calculate AABB info (center, half-extents)
-    glm::vec3 aabb_half_extents(cube->size / 2.0f);
-    glm::vec3 aabb_center(cube->position + aabb_half_extents);
+        float distance = glm::dot(dir, axis);
 
-    // Calculate Difference vector between both centers
-    glm::vec3 difference = center - aabb_center;
-    glm::vec3 clamped = glm::clamp(difference, -aabb_half_extents, aabb_half_extents);
+        if (distance > obb->size[i]) {
+            distance = obb->size[i];
+        }
+        if (distance < -obb->size[i]) {
+            distance = -obb->size[i];
+        }
 
-    // Attach Clamped Value to AABB to get the point closest to circle
-    glm::vec3 closest = clamped + aabb_center;
-
-    // Calculate difference between Sphere Center and Closest point on AABB
-    difference = closest - center;
-
-    // Comparison Value
-    float comparison = sphere->radius*2.0f;
-    std::cout << glm::length(abs(difference)) << ", " << comparison << std::endl;
-    */
-
-    // Return If overlapping
-    return glm::length(closest) > sphere->radius;
+        result += axis * distance;
+    }
+    return result;
 }

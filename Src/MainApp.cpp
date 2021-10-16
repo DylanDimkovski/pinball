@@ -204,7 +204,15 @@ void MainApp::UpdateState(unsigned int td_milli)
 
     if (!physics.check_collisionf((RTRCube*)m_Cube, (RTRSphere*)m_Sphere)) 
     {
-        m_Sphere->position.y -= 3.0f * m_TimeDelta / 1000.0f;
+        if (m_Sphere->velocity.y < 100.0f)
+        {
+            m_Sphere->velocity.y += 9.81f/1000.0f * m_TimeDelta / 1000.0f;
+        }
+        else 
+        {
+            m_Sphere->velocity.y = 100.0f;
+        }
+        m_Sphere->position.y -= m_Sphere->velocity.y;
     }
 }
 

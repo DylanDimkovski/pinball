@@ -42,4 +42,5 @@ public:
     glm::mat4 model_matrix{ 1.0f };
     glm::vec3 min{ 0.0f };
     glm::vec3 max{ 0.0f };
+    glm::vec3 velocity{ 0.0f };
 };

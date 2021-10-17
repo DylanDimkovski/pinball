@@ -24,17 +24,9 @@ glm::vec3 RTRPhysics::ClosestPoint(const RTRCube* obb, glm::vec3 point) {
     glm::vec3 result = obb->position;
     glm::vec3 dir = point - obb->position;
 
-    // Orientation Matrix Only Works For Objects Rotated on X-Axis
-    glm::mat3 orientation_matrix
-    {
-        1.0f, 0.0f, 0.0f,
-        0.0f, cosf(obb->rotation_angle.x), sinf(obb->rotation_angle.x),
-        0.0f, -sinf(obb->rotation_angle.x), cosf(obb->rotation_angle.x)
-    };
-
     // Loop over Rotation Matrix and calculate closest point
     for (int i = 0; i < 3; ++i) {
-        glm::vec3 axis(orientation_matrix[i][0], orientation_matrix[i][1], orientation_matrix[i][2]);
+        glm::vec3 axis(obb->orientation_matrix[i][0], obb->orientation_matrix[i][1], obb->orientation_matrix[i][2]);
 
         float distance = glm::dot(dir, axis);
 
@@ -47,5 +39,6 @@ glm::vec3 RTRPhysics::ClosestPoint(const RTRCube* obb, glm::vec3 point) {
 
         result += axis * distance;
     }
+    
     return result;
 }

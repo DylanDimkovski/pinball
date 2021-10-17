@@ -6,10 +6,12 @@
 #version 460
 out vec4 f_FragColor;
 
+in vec2 TexCoords;
 in VertexData {
     vec3 FragPos;
 } fs_in;
 
+uniform sampler2D texture1;
 uniform float u_CurTime;
 
 // Taken from a ThreeJS demo

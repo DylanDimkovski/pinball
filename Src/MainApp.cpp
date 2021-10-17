@@ -20,13 +20,13 @@ int MainApp::Init()
     // Create two shaders
     // You might want to maintain a vector of all shaders you will use in your assignment
     m_DefaultShader = new RTRShader();
-    if (m_DefaultShader->Load("Src/RTRDefault.vert", "Src/RTRDefault.frag", "Src/RTRDefault.geom") != 0) {
+    if (m_DefaultShader->Load("D:/Uni Work/RealTimeGraphics/A2_SURNAME_FIRSTNAME/Src/RTRDefault.vert", "D:/Uni Work/RealTimeGraphics/A2_SURNAME_FIRSTNAME/Src/RTRDefault.frag", "D:/Uni Work/RealTimeGraphics/A2_SURNAME_FIRSTNAME/Src/RTRDefault.geom") != 0) {
         return -1;
     }
 
     // Create Skybox
     m_SkyboxShader = new RTRShader();
-    if (m_SkyboxShader->Load("Src/RTRSkybox.vert", "Src/RTRSkybox.frag") != 0) {
+    if (m_SkyboxShader->Load("D:/Uni Work/RealTimeGraphics/A2_SURNAME_FIRSTNAME/Src/RTRSkybox.vert", "D:/Uni Work/RealTimeGraphics/A2_SURNAME_FIRSTNAME/Src/RTRSkybox.frag") != 0) {
         return -1;
     }
 
@@ -118,7 +118,7 @@ int MainApp::Init()
 
     // Create and initialise skybox
     m_SkyBox = new RTRSkybox();
-    m_SkyBox->init();
+    m_SkyBox->Init();
 
     // Create and initialise the debug console/overlay
     m_Console = new Console();
@@ -132,7 +132,7 @@ void MainApp::Done()
     m_Cube->End(); delete m_Cube;
     m_Sphere->End(); delete m_Sphere;
     m_Console->End(); delete m_Console;
-    m_SkyBox->done(); delete m_SkyBox;
+    m_SkyBox->End(); delete m_SkyBox;
     delete m_DefaultShader;
     delete m_SkyboxShader;
     RTRApp::Done();
@@ -232,6 +232,7 @@ void MainApp::RenderFrame()
     m_DefaultShader->SetMat4("u_ModelMatrix", m_Cube->model_matrix);
     m_Cube->Render(m_DefaultShader);
 
+    // Render the Sphere
     m_Sphere->model_matrix = glm::translate(m_ModelMatrix, m_Sphere->position);
     m_DefaultShader->SetMat4("u_ModelMatrix", m_Sphere->model_matrix);
     m_Sphere->Render(m_DefaultShader);
@@ -239,7 +240,7 @@ void MainApp::RenderFrame()
     // Skybox
     glUseProgram(m_SkyboxShader->GetId());
     m_SkyboxShader->SetInt("skybox", 0);
-    m_SkyBox->draw(m_Camera, m_ProjectionMatrix, m_SkyboxShader);
+    m_SkyBox->Render(m_Camera, m_ProjectionMatrix, m_SkyboxShader);
     
     // Print out all debug info
     m_Console->Render("DEBUG", m_FPS,

@@ -40,8 +40,7 @@ void RTRSphere::Init()
             // vertex tex coord between [0, 1]
             s = (float)j / sectorCount;
             t = (float)i / stackCount;
-            texCoords.push_back(s);
-            texCoords.push_back(t);
+            texCoords.push_back({ s, t });
         }
     }
 
@@ -75,11 +74,13 @@ void RTRSphere::Init()
         }
     }
     RTRObject::Init();
+    //textureID = texture->load_texture("D:/Uni Work/RealTimeGraphics/A2_SURNAME_FIRSTNAME/Src/textures/Wood030_2K_Color.png");
+    texture_index = 2;
 }
 
 void RTRSphere::End()
 {
     std::vector<glm::vec3>().swap(normals);
-    std::vector<float>().swap(texCoords);
+    std::vector<glm::vec2>().swap(texCoords);
     RTRObject::End();
 }

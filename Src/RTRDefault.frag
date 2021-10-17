@@ -9,6 +9,7 @@ out vec4 f_FragColor;
 in VertexData {
     vec3 FragPos;
     vec3 Normal;
+    vec2 TexCoords;
 } fs_in;
 
 struct RTRCamera {
@@ -19,7 +20,6 @@ struct RTRCamera {
 };
 
 #define RTR_MAX_LIGHTS 10
-
 #define RTRDirectionalLight    0
 #define RTRPointLight          1
 #define RTRSpotLight           2
@@ -45,15 +45,14 @@ struct RTRMaterial {
     float Shininess;
 };
 
+uniform sampler2D texture1;
 uniform mat4 u_ModelMatrix;
 uniform mat4 u_ViewMatrix;
 uniform mat4 u_ProjectionMatrix;
-
 uniform int         u_NumLights;
 uniform RTRLight    u_Lights[RTR_MAX_LIGHTS];
 uniform RTRMaterial u_ObjectMaterial;
 uniform RTRCamera   u_Camera;
-
 uniform float u_CurTime;
 
 void main() 
@@ -100,6 +99,6 @@ void main()
         final_color += (ambient + attenuation*(diffuse + specular));
     }
     
-    f_FragColor = vec4(final_color, 1.0);
+    f_FragColor = texture(texture1, fs_in.TexCoords) *  vec4(final_color, 1.0);
 }
 

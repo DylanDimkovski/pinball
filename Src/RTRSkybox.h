@@ -2,7 +2,6 @@
 #pragma once
 #include "RTRShader.h"
 #include "RTRCamera.h"
-#include "RTRTexture.h"
 #include "RTRObject.h"
 #include <glad/glad.h>
 #include <glm/ext.hpp>
@@ -11,19 +10,13 @@
 class RTRSkybox : public RTRObject
 {
 public:
-    void init();
-    void setup_buffer();
-    void draw(RTRCamera* camera, glm::mat4 projection, RTRShader* shader);
-    void done();
-
-    RTRTexture* texture = new RTRTexture();
-
-    unsigned int VAO = 0;
-    unsigned int VBO = 0;
-    unsigned int textureID = 0;
+    RTRSkybox() : RTRObject() {}
+    ~RTRSkybox() {}
+    virtual void Init();
+    virtual void Render(RTRCamera* camera, glm::mat4 projection, RTRShader* shader);
+    virtual void End();
 
     float skyboxVertices[108] = {
-        // positions          
         -1.0f,  1.0f, -1.0f,
         -1.0f, -1.0f, -1.0f,
          1.0f, -1.0f, -1.0f,
@@ -69,11 +62,11 @@ public:
 
     std::vector<std::string> faces
     {
-        "Src/skyboxs/skybox7/right.png",
-        "Src/skyboxs/skybox7/left.png",
-        "Src/skyboxs/skybox7/top.png",
-        "Src/skyboxs/skybox7/bottom.png",
-        "Src/skyboxs/skybox7/front.png",
-        "Src/skyboxs/skybox7/back.png"
+        "D:/Uni Work/RealTimeGraphics/A2_SURNAME_FIRSTNAME/Src/skyboxs/skybox7/right.png",
+        "D:/Uni Work/RealTimeGraphics/A2_SURNAME_FIRSTNAME/Src/skyboxs/skybox7/left.png",
+        "D:/Uni Work/RealTimeGraphics/A2_SURNAME_FIRSTNAME/Src/skyboxs/skybox7/top.png",
+        "D:/Uni Work/RealTimeGraphics/A2_SURNAME_FIRSTNAME/Src/skyboxs/skybox7/bottom.png",
+        "D:/Uni Work/RealTimeGraphics/A2_SURNAME_FIRSTNAME/Src/skyboxs/skybox7/front.png",
+        "D:/Uni Work/RealTimeGraphics/A2_SURNAME_FIRSTNAME/Src/skyboxs/skybox7/back.png"
     };
 };

@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------------
 #pragma once
 #include "RTRLighting.h"
+#include "RTRTexture.h"
 #include "RTRShader.h"
 #include <vector>
 
@@ -28,19 +29,27 @@ public:
     virtual const char* GetName() { return "RTRObject"; }
 
 public:
+    RTRTexture* texture = new RTRTexture();
     RTRMaterial_t m_Material{ {0.19225, 0.19225, 0.19225 }, { 0.50754, 0.50754, 0.50754 }, { 0.508273, 0.508273, 0.508273 }, 128.0 };
+
     unsigned int m_VertexBuffer{ 0 };
+    unsigned int m_TexBuffer{ 0 };
     unsigned int m_VertexArray{ 0 };
     unsigned int m_FaceElementBuffer{ 0 };
+    unsigned int textureID = 0;
+    int texture_index = 0;
+
+    std::vector<glm::vec2> texCoords;
+
     std::vector<glm::vec3> vertices;
     std::vector<glm::vec3> normals;
     std::vector<unsigned int> indices;
-    std::vector<float> texCoords;
+
     glm::vec3 position{ 0.0f };
     glm::vec3 size{ 0.0f };
     glm::vec3 rotation_angle{ 0.0f };
-    glm::mat4 model_matrix{ 1.0f };
-    glm::vec3 min{ 0.0f };
-    glm::vec3 max{ 0.0f };
     glm::vec3 velocity{ 0.0f };
+
+    glm::mat4 model_matrix{ 1.0f };
+    glm::mat4 orientation_matrix{ 1.0f };
 };

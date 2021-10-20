@@ -7,6 +7,7 @@
 #include "RTRLighting.h"
 #include "RTRTexture.h"
 #include "RTRShader.h"
+#include "RTRMovement.h"
 #include <vector>
 
 struct RTRPoint_t {
@@ -30,6 +31,7 @@ public:
 
 public:
     RTRTexture* texture = new RTRTexture();
+    RTRMovement* movement = new RTRMovement();
     RTRMaterial_t m_Material{ {0.19225, 0.19225, 0.19225 }, { 0.50754, 0.50754, 0.50754 }, { 0.508273, 0.508273, 0.508273 }, 128.0 };
 
     unsigned int m_VertexBuffer{ 0 };
@@ -37,19 +39,15 @@ public:
     unsigned int m_VertexArray{ 0 };
     unsigned int m_FaceElementBuffer{ 0 };
     unsigned int textureID = 0;
-    int texture_index = 0;
 
     std::vector<glm::vec2> texCoords;
-
     std::vector<glm::vec3> vertices;
     std::vector<glm::vec3> normals;
     std::vector<unsigned int> indices;
 
-    glm::vec3 position{ 0.0f };
     glm::vec3 size{ 0.0f };
-    glm::vec3 rotation_angle{ 0.0f };
-    glm::vec3 velocity{ 0.0f };
-
+    glm::vec3 rotation{ 0.0f };
+    glm::vec3 position{ 0.0f };
     glm::mat4 model_matrix{ 1.0f };
     glm::mat4 orientation_matrix{ 1.0f };
 };

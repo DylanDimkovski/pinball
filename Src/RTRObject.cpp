@@ -51,10 +51,11 @@ void RTRObject::Init()
 
 void RTRObject::Render(RTRShader *shader)
 {
+    shader->SetBool("texture_used", true);
+    shader->SetInt("texture1", 1);
     shader->SetMaterial("u_ObjectMaterial", m_Material);
-    shader->SetInt("texture1", texture_index);
     glBindVertexArray(m_VertexArray);
-    glActiveTexture(GL_TEXTURE0 + texture_index);
+    glActiveTexture(GL_TEXTURE0 + 1);
     glBindTexture(GL_TEXTURE_2D, textureID);
     if (indices.size() > 0) glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
     else glDrawArrays(GL_TRIANGLES, 0, 36);

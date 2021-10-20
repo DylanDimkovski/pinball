@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Include\glad\glad.c" />
     <ClCompile Include="Src\RTRCube.cpp" />
+    <ClCompile Include="Src\RTRMovement.cpp" />
     <ClCompile Include="Src\RTRObject.cpp" />
     <ClCompile Include="Src\Console.cpp" />
     <ClCompile Include="Src\RTRApp.cpp" />
@@ -33,6 +34,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\RTRCube.h" />
+    <ClInclude Include="Src\RTRMovement.h" />
     <ClInclude Include="Src\RTRPhysics.h" />
     <ClInclude Include="Src\RTRSkybox.h" />
     <ClInclude Include="Src\RTRCamera.h" />

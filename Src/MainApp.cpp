@@ -36,76 +36,16 @@ int MainApp::Init()
     // Create and initialise lighting model
     m_LightingModel = new RTRLightingModel();
     
-    // Add directional light to follow camera view direction
+    // Point Light
     m_LightingModel->AddLight({
-        .Type = RTRLightType::DirectionalLight,
-        .Ambient = glm::vec3(0.2, 0.2, 0.2),
+        .Type = RTRLightType::PointLight,
+        .Ambient = glm::vec3(0.3, 0.3, 0.3),
         .Diffuse = glm::vec3(1.0, 1.0, 1.0),
-        .Specular = glm::vec3(0.5, 0.5, 0.5),
-        .Direction = glm::vec3(1.0, 0.0, 0.0)
-        });
-    // Add x-axis red spot lights (palce all at x+3.0 so they are positioned around shaded cube)
-    m_LightingModel->AddLight({
-        .Type = RTRLightType::PointLight,
-        .Ambient = glm::vec3(1.0, 0.0, 0.0),
-        .Diffuse = glm::vec3(1.0, 0.0, 0.0),
         .Specular = glm::vec3(1.0, 1.0, 1.0),
-        .Position = glm::vec3(2.0 + 3.0, 0.0, 0.0),
+        .Position = glm::vec3(3.0, 20.0, -2.0),
         .Constant = 1.0f,
-        .Linear = 0.35f,
-        .Quadratic = 0.44f
-    });
-    m_LightingModel->AddLight({
-        .Type = RTRLightType::PointLight,
-        .Ambient = glm::vec3(1.0, 0.0, 0.0),
-        .Diffuse = glm::vec3(1.0, 0.0, 0.0),
-        .Specular = glm::vec3(1.0, 1.0, 1.0),
-        .Position = glm::vec3(-2.0 + 3.0, 0.0, 0.0),
-        .Constant = 1.0f,
-        .Linear = 0.35f,
-        .Quadratic = 0.44f
-        });
-    // Add y-axis green spot lights
-    m_LightingModel->AddLight({
-        .Type = RTRLightType::PointLight,
-        .Ambient = glm::vec3(0.0, 0.2, 0.0),
-        .Diffuse = glm::vec3(0.0, 1.0, 0.0),
-        .Specular = glm::vec3(1.0, 1.0, 1.0),
-        .Position = glm::vec3(0.0 + 3.0, 2.0, 0.0),
-        .Constant = 1.0f,
-        .Linear = 0.35f,
-        .Quadratic = 0.44f
-        });
-    m_LightingModel->AddLight({
-        .Type = RTRLightType::PointLight,
-        .Ambient = glm::vec3(0.0, 0.2, 0.0),
-        .Diffuse = glm::vec3(0.0, 1.0, 0.0),
-        .Specular = glm::vec3(1.0, 1.0, 1.0),
-        .Position = glm::vec3(0.0 + 3.0, -2.0, 0.0),
-        .Constant = 1.0f,
-        .Linear = 0.35f,
-        .Quadratic = 0.44f
-        });
-    // Add z-axis blue spot lights
-    m_LightingModel->AddLight({
-        .Type = RTRLightType::PointLight,
-        .Ambient = glm::vec3(0.0, 0.0, 0.2),
-        .Diffuse = glm::vec3(0.0, 0.0, 1.0),
-        .Specular = glm::vec3(1.0, 1.0, 1.0),
-        .Position = glm::vec3(0.0 + 3.0, 0.0, 2.0),
-        .Constant = 1.0f,
-        .Linear = 0.35f,
-        .Quadratic = 0.44f
-        });
-    m_LightingModel->AddLight({
-        .Type = RTRLightType::PointLight,
-        .Ambient = glm::vec3(0.0, 0.0, 0.2),
-        .Diffuse = glm::vec3(0.0, 0.0, 1.0),
-        .Specular = glm::vec3(1.0, 1.0, 1.0),
-        .Position = glm::vec3(0.0 + 3.0, 0.0, -2.0),
-        .Constant = 1.0f,
-        .Linear = 0.35f,
-        .Quadratic = 0.44f
+        .Linear = 0.0f,
+        .Quadratic = 0.0f
         });
 
     // Create Cube Object
@@ -123,6 +63,10 @@ int MainApp::Init()
     // Create and initialise the debug console/overlay
     m_Console = new Console();
     m_Console->Init();
+
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
 
     return 0;
 }
@@ -204,15 +148,21 @@ void MainApp::UpdateState(unsigned int td_milli)
 
     if (!physics.check_collisionf((RTRCube*)m_Cube, (RTRSphere*)m_Sphere)) 
     {
-        if (m_Sphere->velocity.y < 100.0f)
+        // Fall until the Table is hit
+        if (m_Sphere->movement->velocity.y < 100.0f)
         {
-            m_Sphere->velocity.y += 9.81f/1000.0f * m_TimeDelta / 1000.0f;
+            m_Sphere->movement->velocity.y += m_Sphere->movement->gravity * m_TimeDelta / 1000.0f;
         }
-        else 
+        else
         {
-            m_Sphere->velocity.y = 100.0f;
+            m_Sphere->movement->velocity.y = 100.0f;
         }
-        m_Sphere->position.y -= m_Sphere->velocity.y;
+        m_Sphere->position.y -= m_Sphere->movement->velocity.y;
+    }
+    else 
+    {
+        m_Sphere->movement->velocity.y = ((10.0f * 0.0) + (2.0f * m_Sphere->movement->velocity.y)) / (10.0f + 2.0f) * m_TimeDelta / 1000.0f;
+        m_Sphere->position.y += m_Sphere->movement->velocity.y;
     }
 }
 

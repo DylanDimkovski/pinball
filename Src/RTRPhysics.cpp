@@ -18,6 +18,15 @@ bool RTRPhysics::check_collisionf(RTRCube* cube, RTRSphere* sphere)
     return distSq < radiusSq * 2.0f;
 }
 
+bool RTRPhysics::check_collisionww(RTRSphere* sphere)
+{
+    if ((sphere->position.z - sphere->radius) < 5.0 || (sphere->position.z + sphere->radius) > 5.0) 
+    {
+        return true;
+    }
+    return false;
+}
+
 glm::vec3 RTRPhysics::ClosestPoint(const RTRCube* obb, glm::vec3 point) {
     
     // Initalize return and direction

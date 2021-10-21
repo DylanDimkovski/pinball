@@ -29,6 +29,7 @@ public:
 
 private:
     bool m_QuitApp{ false };
+    bool m_Paused{ true };
     RTRShader* m_DefaultShader{ nullptr };
     RTRShader* m_SkyboxShader{ nullptr };
     RTRCamera* m_Camera{ nullptr };

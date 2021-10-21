@@ -4,8 +4,8 @@
 class RTRPhysics
 {
 public:
-	bool check_collisionf(RTRCube* cube, RTRSphere* sphere);
-	bool check_collisionww(RTRSphere* sphere);
+	bool SphereOBB_Detection(RTRSphere* sphere, RTRCube* cubee);
+	glm::vec3 SphereOBB_Resolution(RTRSphere* sphere, RTRCube* cube);
 private:
-	glm::vec3 ClosestPoint(const RTRCube* obb, glm::vec3 point);
+	glm::vec3 ClosestPoint(RTRCube* obb, glm::vec3 point);
 };

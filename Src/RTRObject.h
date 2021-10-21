@@ -40,6 +40,8 @@ public:
     unsigned int m_FaceElementBuffer{ 0 };
     unsigned int textureID = 0;
 
+    float distance = 0;
+
     std::vector<glm::vec2> texCoords;
     std::vector<glm::vec3> vertices;
     std::vector<glm::vec3> normals;

@@ -6,7 +6,7 @@ void RTRCube::Init()
     float angle = 25.0f * 3.14159265359 / 180;
     rotation = { angle, angle, angle };
     movement->pitch_delta, movement->yaw_delta, movement->roll_delta = angle;
-    size = { 5.0f, 2.0f, 10.0f };
+    size = { 5.0f, 0.5f, 10.0f };
 
     glm::vec3 v[8] = {
         glm::vec3(1, 1, 1),

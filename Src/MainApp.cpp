@@ -110,6 +110,7 @@ void MainApp::CheckInput()
                     case SDLK_RIGHT: m_TurningRight = true; break;
                     case SDLK_UP: m_TiltingUp = true; break;
                     case SDLK_DOWN: m_TiltingDown = true; break;
+                    case SDLK_SPACE: m_Paused = !m_Paused; break;
                 }
                 break;
             case SDL_KEYUP:
@@ -146,23 +147,26 @@ void MainApp::UpdateState(unsigned int td_milli)
     // Setup Model and View matrices
     m_ViewMatrix = m_Camera->GetViewMatrix();
 
-    if (!physics.check_collisionf((RTRCube*)m_Cube, (RTRSphere*)m_Sphere)) 
+    if (!m_Paused) 
     {
-        // Fall until the Table is hit
-        if (m_Sphere->movement->velocity.y < 100.0f)
+        if (!physics.SphereOBB_Detection((RTRSphere*)m_Sphere, (RTRCube*)m_Cube))
         {
-            m_Sphere->movement->velocity.y += m_Sphere->movement->gravity * m_TimeDelta / 1000.0f;
+            // Fall until the Table is hit
+            if (m_Sphere->movement->velocity.y < 100.0f)
+            {
+                m_Sphere->movement->velocity.y += glm::length(m_Sphere->movement->gravity) * (m_TimeDelta / 1000.0f);
+            }
+            else
+            {
+                m_Sphere->movement->velocity.y = 100.0f;
+            }
+            m_Sphere->position -= m_Sphere->movement->velocity * glm::vec3(m_TimeDelta / 1000.0f);
         }
         else
         {
-            m_Sphere->movement->velocity.y = 100.0f;
+            m_Sphere->movement->velocity = physics.SphereOBB_Resolution((RTRSphere*)m_Sphere, (RTRCube*)m_Cube);
+            m_Sphere->position -= m_Sphere->movement->velocity * glm::vec3(m_TimeDelta / 1000.0f);
         }
-        m_Sphere->position.y -= m_Sphere->movement->velocity.y;
-    }
-    else 
-    {
-        m_Sphere->movement->velocity.y = ((10.0f * 0.0) + (2.0f * m_Sphere->movement->velocity.y)) / (10.0f + 2.0f) * m_TimeDelta / 1000.0f;
-        m_Sphere->position.y += m_Sphere->movement->velocity.y;
     }
 }
 
@@ -205,7 +209,7 @@ void MainApp::RenderFrame()
 static const char* MAIN_WINDOW_TITLE = "RMIT COSC1226: Real-Time Rendering";
 int main(int argc, char** argv)
 {
-    MainApp* app = new MainApp(MAIN_WINDOW_TITLE, false, 1200, 800);
+    MainApp* app = new MainApp(MAIN_WINDOW_TITLE, false, 1920, 1080);
     if (int err = app->Init() != 0) {
         std::cout << "RTR:ERROR: Failed to initialise application. Please see error messages for details..." << std::endl;
         return -1;

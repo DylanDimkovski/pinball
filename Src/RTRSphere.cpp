@@ -3,10 +3,11 @@
 
 void RTRSphere::Init()
 {
-    movement->gravity = 9.81f / 10000.0f;
-    position = { 0.0f, 10.0f, 7.0f };
+    movement->gravity = 10.0f;
+    size = { 0.5f, 0.5f, 0.5f };
+    position = { 0.0f, 5.0f, -7.0f };
     float x, y, z, xy;                              // vertex position
-    float nx, ny, nz, lengthInv = 1.0f / radius;    // normal
+    float nx, ny, nz, lengthInv = 1.0f / size.x;    // normal
     float s, t;                                     // texCoord
 
     float sectorStep = (2 * glm::pi<float>()) / sectorCount;
@@ -16,8 +17,8 @@ void RTRSphere::Init()
     for (int i = 0; i <= stackCount; ++i)
     {
         stackAngle = glm::pi<float>() / 2 - i * stackStep;        // starting from pi/2 to -pi/2
-        xy = radius * cosf(stackAngle);             // r * cos(u)
-        z = radius * sinf(stackAngle);              // r * sin(u)
+        xy = size.x * cosf(stackAngle);             // r * cos(u)
+        z = size.x * sinf(stackAngle);              // r * sin(u)
 
         // add (sectorCount+1) vertices per stack
         // the first and last vertices have same position and normal, but different tex coords

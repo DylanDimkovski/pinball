@@ -11,25 +11,27 @@ bool RTRPhysics::SphereOBB_Detection(RTRSphere* sphere, RTRCube* cube)
     // Find Distance Between Sphere and Closest Point
     sphere->distance = glm::length(sphere->position - closest_point);
 
-    // Get Spheres Radius Squared
-    float radiusSq = sphere->size.x * sphere->size.x;
+    sphere->movement->initial_velocity = sphere->movement->velocity;
 
-    // If Distance is less than sphere size-> Then we have collision
-    return sphere->distance < radiusSq * 2.0f;
+    // If Distance is less than sphere size Then we have collision
+    return sphere->distance < sphere->size.x;
 }
 
 glm::vec3 RTRPhysics::SphereOBB_Resolution(RTRSphere* sphere, RTRCube* cube)
 {
+    // Calculate Normal
     glm::vec3 closest_point = ClosestPoint(cube, sphere->position);
-
-    if (sphere->position.y < closest_point.y)
-    {
-        sphere->position.y = closest_point.y + (sphere->size.x * sphere->size.x);
-    }
-
     glm::vec3 normal = glm::normalize(sphere->position - closest_point);
 
-    sphere->movement->velocity -= 2 * glm::dot(cube->rotation, normal) * normal;
+    if (glm::length(sphere->position) < glm::length(closest_point))
+    {
+        sphere->position.y = closest_point.y + sphere->size.x;
+    }
+
+    // Calculate Reflection
+    sphere->movement->velocity = glm::reflect(sphere->movement->velocity, normal);
+
+    sphere->movement->velocity *= 0.9999f;
 
     return sphere->movement->velocity;
 }

@@ -27,9 +27,9 @@ public:
     virtual void Render(RTRShader* shader);
     virtual void End();
     void SetMaterial(RTRMaterial_t mat) { m_Material = mat; }
+    void SetTexture(char const* filename) { textureID = texture->load_texture(filename); }
     virtual const char* GetName() { return "RTRObject"; }
 
-public:
     RTRTexture* texture = new RTRTexture();
     RTRMovement* movement = new RTRMovement();
     RTRMaterial_t m_Material{ {0.19225, 0.19225, 0.19225 }, { 0.50754, 0.50754, 0.50754 }, { 0.508273, 0.508273, 0.508273 }, 128.0 };
@@ -50,6 +50,10 @@ public:
     glm::vec3 size{ 0.0f };
     glm::vec3 rotation{ 0.0f };
     glm::vec3 position{ 0.0f };
+
     glm::mat4 model_matrix{ 1.0f };
+
     glm::mat4 orientation_matrix{ 1.0f };
+    glm::mat4 translate_matrix{ 1.0f };
+    glm::mat4 scale_matrix{ 1.0f };
 };

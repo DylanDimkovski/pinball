@@ -11,6 +11,7 @@ public:
     void yaw(float angle);
 
     glm::vec3 velocity = {0.0f, 0.0f, 0.0f};
+    glm::vec3 initial_velocity{ 0.0f };
     glm::vec3 force = { 0.0f, 0.0f, 0.0f };
     glm::vec3 forward = { 0.0f, 0.0f, 0.0f };
     glm::vec3 front = { 0.0f, 0.0f, 0.0f };

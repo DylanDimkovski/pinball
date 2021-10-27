@@ -46,6 +46,7 @@
     <ClInclude Include="Src\RTRShader.h" />
     <ClInclude Include="Src\RTRSphere.h" />
     <ClInclude Include="Src\RTRTexture.h" />
+    <ClInclude Include="Src\Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Src\RTRDefault.frag">
@@ -118,8 +119,12 @@
     <Image Include="Src\skyboxs\skybox\left.jpg" />
     <Image Include="Src\skyboxs\skybox\right.jpg" />
     <Image Include="Src\skyboxs\skybox\top.jpg" />
-    <Image Include="Src\textures\board.jpg" />
-    <Image Include="Src\textures\Wood066_4K_Color.png" />
+    <Image Include="Src\textures\ball\Marble012_4K_Color.png" />
+    <Image Include="Src\textures\ball\Marble012_4K_Roughness.png" />
+    <Image Include="Src\textures\table\Wood066_4K_Color.png" />
+    <Image Include="Src\textures\table\Wood066_4K_Roughness.png" />
+    <Image Include="Src\textures\wall\Tiles093_4K_Color.png" />
+    <Image Include="Src\textures\wall\Tiles093_4K_Roughness.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

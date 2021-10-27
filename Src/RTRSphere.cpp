@@ -3,9 +3,9 @@
 
 void RTRSphere::Init()
 {
-    movement->gravity = 10.0f;
-    size = { 0.5f, 0.5f, 0.5f };
-    position = { 0.0f, 5.0f, -7.0f };
+    movement->gravity = 100.0f;
+    size = { 0.275f, 0.275f, 0.275f };
+    position = { 7.0f, -3.0f, 10.0f };
     float x, y, z, xy;                              // vertex position
     float nx, ny, nz, lengthInv = 1.0f / size.x;    // normal
     float s, t;                                     // texCoord
@@ -76,7 +76,7 @@ void RTRSphere::Init()
         }
     }
     RTRObject::Init();
-    textureID = texture->load_texture("D:/Uni Work/RealTimeGraphics/A2_SURNAME_FIRSTNAME/Src/textures/Marble012_4K_Color.png");
+    textureID = texture->load_texture("Src/textures/ball/Marble012_4K_Color.png");
 }
 
 void RTRSphere::End()

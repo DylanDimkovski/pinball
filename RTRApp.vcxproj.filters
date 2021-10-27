@@ -40,6 +40,15 @@
     <Filter Include="Resource Files\texture">
       <UniqueIdentifier>{d2ca7fb3-fbe9-48d5-93ec-90885a827da9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\texture\table">
+      <UniqueIdentifier>{48f68f1f-038a-450e-90c6-8a775514be2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\texture\ball">
+      <UniqueIdentifier>{bcec962b-000f-472d-8c23-00bfae2e1634}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\texture\wall">
+      <UniqueIdentifier>{56fcc628-9559-4d06-a52a-264721f20160}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\RTRApp.cpp">
@@ -117,6 +126,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\RTRMovement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -252,11 +264,23 @@
     <Image Include="Src\skyboxs\skybox6\top.jpg">
       <Filter>Resource Files\skyboxes\skybox6</Filter>
     </Image>
-    <Image Include="Src\textures\board.jpg">
-      <Filter>Resource Files\texture</Filter>
+    <Image Include="Src\textures\table\Wood066_4K_Color.png">
+      <Filter>Resource Files\texture\table</Filter>
     </Image>
-    <Image Include="Src\textures\Wood066_4K_Color.png">
-      <Filter>Resource Files\texture</Filter>
+    <Image Include="Src\textures\table\Wood066_4K_Roughness.png">
+      <Filter>Resource Files\texture\table</Filter>
+    </Image>
+    <Image Include="Src\textures\ball\Marble012_4K_Color.png">
+      <Filter>Resource Files\texture\ball</Filter>
+    </Image>
+    <Image Include="Src\textures\ball\Marble012_4K_Roughness.png">
+      <Filter>Resource Files\texture\ball</Filter>
+    </Image>
+    <Image Include="Src\textures\wall\Tiles093_4K_Color.png">
+      <Filter>Resource Files\texture\wall</Filter>
+    </Image>
+    <Image Include="Src\textures\wall\Tiles093_4K_Roughness.png">
+      <Filter>Resource Files\texture\wall</Filter>
     </Image>
   </ItemGroup>
 </Project>

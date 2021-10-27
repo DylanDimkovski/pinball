@@ -4,7 +4,9 @@
 // RMIT University, COSC1226: Real-Time Rendering and 3D Game Programming
 //-----------------------------------------------------------------------------
 #include "MainApp.h"
-#include "RTRShader.h"
+
+#include "glm/gtx/string_cast.hpp"
+#define GLM_ENABLE_EXPERIMENTAL
 
 int MainApp::Init()
 {
@@ -31,11 +33,11 @@ int MainApp::Init()
     }
 
     // Create and initialise camera
-    m_Camera = new RTRCamera(glm::vec3(0.0, 4.5, 14.5), glm::vec3(0.0, 1.0, 0.0));
+    m_Camera = new RTRCamera(glm::vec3(0.0, 6.5, 23.70), glm::vec3(0.0, 1.0, 0.0));
 
     // Create and initialise lighting model
     m_LightingModel = new RTRLightingModel();
-    
+
     // Point Light
     m_LightingModel->AddLight({
         .Type = RTRLightType::PointLight,
@@ -48,9 +50,68 @@ int MainApp::Init()
         .Quadratic = 0.0f
         });
 
-    // Create Cube Object
-    m_Cube = new RTRCube();
+    float angle = glm::radians(25.0f);
+
+    // Create Table Object
+    m_Cube = new RTRCube(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(10.0f, 1.0f, 15.0f), angle);
     m_Cube->Init();
+    m_Cube->SetTexture("Src/textures/table/Wood066_4K_Color.png");
+    Scale(m_Cube);
+    Rotate(m_Cube, angle, glm::vec3(1.0f, 0.0f, 0.0f));
+    Translate(m_Cube);
+    Transform(m_Cube);
+
+    // Create Walls
+    // Bounds
+    walls.push_back(new RTRCube(glm::vec3(0.0f, 2.0f, -14.0f), glm::vec3(8.0f, 1.0f, 1.0f), angle)); // Top Wall 0
+    walls.push_back(new RTRCube(glm::vec3(-9.0f, 2.0f, 0.0f), glm::vec3(1.0f, 1.0f, 15.0f), angle)); // Left Wall 1
+    walls.push_back(new RTRCube(glm::vec3(9.0f, 2.0f, 0.0f), glm::vec3(1.0f, 1.0f, 15.0f), angle)); // Right Wall 2 
+    walls.push_back(new RTRCube(glm::vec3(0.0f, 2.0, 14.0f), glm::vec3(8.0f, 1.0f, 1.0f), angle)); // Bottom Wall 3
+
+    // Launcher Area
+    walls.push_back(new RTRCube(glm::vec3(5.0f, 2.0f, 5.0f), glm::vec3(1.0f, 1.0f, 8.0f), angle)); // Divider 4
+
+    // Backboard Area
+    walls.push_back(new RTRCube(glm::vec3(-2.0f, 2.0f, -14.0f), glm::vec3(2.0f, 1.0f, 1.0f), angle)); // Left Corner 5
+    walls.push_back(new RTRCube(glm::vec3(2.0f, 2.0f, -14.0f), glm::vec3(2.0f, 1.0f, 1.0f), angle)); // Right Corner 6
+
+    // Peg Area
+    walls.push_back(new RTRCube(glm::vec3(-6.0f, 2.0f, 11.5f), glm::vec3(2.0f, 1.0f, 0.5f), angle)); // Left Wall 7
+    walls.push_back(new RTRCube(glm::vec3(2.0f, 2.0f, 11.5f), glm::vec3(2.0f, 1.0f, 0.5f), angle)); // Right Wall 8
+
+    walls.push_back(new RTRCube(glm::vec3(-2.0f, 2.0f, 10.5f), glm::vec3(1.0f, 1.0f, 0.5f), angle)); // Left Wall 9
+    walls.push_back(new RTRCube(glm::vec3(-2.0f, 2.0f, 9.1f), glm::vec3(1.0f, 1.0f, 0.5f), angle)); // Right Wall 10
+
+    for (int i = 0; i < walls.size(); i++) 
+    {
+        walls.at(i)->Init();
+        walls.at(i)->SetTexture("Src/textures/wall/Tiles093_4K_Color.png");
+        Translate(walls.at(i));
+        Scale(walls.at(i));
+        Rotate(walls.at(i), angle, glm::vec3(1.0f, 0.0f, 0.0f));
+    
+        if (i == 5) 
+        {
+            Rotate(walls.at(i), glm::radians(20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        }
+    
+        if (i == 6)
+        {
+            Rotate(walls.at(i), glm::radians(-20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        }
+
+        if (i == 9) 
+        {
+            Rotate(walls.at(i), glm::radians(-20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        }
+
+        if (i == 10)
+        {
+            Rotate(walls.at(i), glm::radians(20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        }
+
+        Transform(walls.at(i));
+    }
 
     // Create Ball Object
     m_Sphere = new RTRSphere();
@@ -111,6 +172,7 @@ void MainApp::CheckInput()
                     case SDLK_UP: m_TiltingUp = true; break;
                     case SDLK_DOWN: m_TiltingDown = true; break;
                     case SDLK_SPACE: m_Paused = !m_Paused; break;
+                    case SDLK_RETURN: m_Paused = false; m_Sphere->movement->velocity.z += 50.0f;
                 }
                 break;
             case SDL_KEYUP:
@@ -149,16 +211,21 @@ void MainApp::UpdateState(unsigned int td_milli)
 
     if (!m_Paused) 
     {
+        // Sphere -> Board Detection Collision and Resolution
         if (!physics.SphereOBB_Detection((RTRSphere*)m_Sphere, (RTRCube*)m_Cube))
         {
             // Fall until the Table is hit
-            if (m_Sphere->movement->velocity.y < 100.0f)
+            if (m_Sphere->movement->velocity.y > -0.1 && m_Sphere->movement->velocity.y < 100.0f)
             {
                 m_Sphere->movement->velocity.y += glm::length(m_Sphere->movement->gravity) * (m_TimeDelta / 1000.0f);
             }
-            else
+            else if (m_Sphere->movement->velocity.y > 100.0f)
             {
                 m_Sphere->movement->velocity.y = 100.0f;
+            }
+            else
+            {
+                m_Sphere->movement->velocity.y = 0;
             }
             m_Sphere->position -= m_Sphere->movement->velocity * glm::vec3(m_TimeDelta / 1000.0f);
         }
@@ -166,6 +233,16 @@ void MainApp::UpdateState(unsigned int td_milli)
         {
             m_Sphere->movement->velocity = physics.SphereOBB_Resolution((RTRSphere*)m_Sphere, (RTRCube*)m_Cube);
             m_Sphere->position -= m_Sphere->movement->velocity * glm::vec3(m_TimeDelta / 1000.0f);
+        }
+
+        // Sphere -> Walls Detection Collision and Resolution
+        for (int i = 0; i < walls.size(); i++)
+        {
+            if (physics.SphereOBB_Detection((RTRSphere*)m_Sphere, (RTRCube*)walls.at(i)))
+            {
+                m_Sphere->movement->velocity = physics.SphereOBB_Resolution((RTRSphere*)m_Sphere, (RTRCube*)walls.at(i));
+                m_Sphere->position -= m_Sphere->movement->velocity * glm::vec3(m_TimeDelta / 1000.0f);
+            }
         }
     }
 }
@@ -185,6 +262,12 @@ void MainApp::RenderFrame()
     m_DefaultShader->SetLightingModel(*m_LightingModel);
     m_DefaultShader->SetMat4("u_ModelMatrix", m_Cube->model_matrix);
     m_Cube->Render(m_DefaultShader);
+
+    for (int i = 0; i < walls.size(); i++) 
+    {
+        m_DefaultShader->SetMat4("u_ModelMatrix", walls.at(i)->model_matrix);
+        walls.at(i)->Render(m_DefaultShader);
+    }
 
     // Render the Sphere
     m_Sphere->model_matrix = glm::translate(m_ModelMatrix, m_Sphere->position);
@@ -217,4 +300,10 @@ int main(int argc, char** argv)
     app->Run();
     app->Done();
     return 0;
+}
+
+
+void Create_World_Objects() 
+{
+    
 }

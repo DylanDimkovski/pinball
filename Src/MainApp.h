@@ -14,6 +14,7 @@
 #include "RTRCube.h"
 #include "RTRSphere.h"
 #include "RTRSkybox.h"
+#include "Transform.h"
 #include "RTRPhysics.h"
 #include "Console.h"
 
@@ -39,6 +40,8 @@ private:
     RTRSkybox* m_SkyBox{ nullptr };
     RTRPhysics physics;
     Console* m_Console{ nullptr };
+
+    std::vector<RTRObject*> walls;
 
     bool m_MovingForward{ false };
     bool m_MovingBackward{ false };

@@ -16,6 +16,7 @@
 #include "RTRSphere.h"
 #include "RTRSkybox.h"
 #include "RTRPhysics.h"
+#include "RTRPeg.h"
 #include "Console.h"
 
 class MainApp : public RTRApp
@@ -43,8 +44,11 @@ private:
 
     std::vector<RTRObject*> walls;
     std::vector<RTRObject*> balls;
+    std::vector<RTRObject*> pegs;
     std::vector<unsigned int> textures;
 
+    bool m_LeftPegTurning{ false };
+    bool m_RightPegTurning{ false };
     bool m_MovingForward{ false };
     bool m_MovingBackward{ false };
     bool m_TurningLeft{ false };

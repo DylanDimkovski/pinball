@@ -2,8 +2,6 @@
 
 void RTRCube::Init()
 {
-    movement->pitch_delta, movement->yaw_delta, movement->roll_delta = rotation.x;
-
     glm::vec3 v[8] = {
         glm::vec3(1, 1, 1),
         glm::vec3(-1, 1,  1),
@@ -69,6 +67,7 @@ void RTRCube::Init()
         glm::vec2(0.0f, 1.0f)*tex_scale,
         glm::vec2(0.0f, 0.0f)*tex_scale
     });
+
     // Set New Material
     m_Material = {{0.329412f, 0.223529f, 0.027451f}, {0.780392f, 0.568627f, 0.113725f}, {0.992157f, 0.941176f, 0.807843f}, 40.8974f};
     RTRObject::Init();

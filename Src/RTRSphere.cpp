@@ -74,7 +74,6 @@ void RTRSphere::Init()
             }
         }
     }
-    //textureID = texture->load_texture("Src/textures/ball/Marble012_4K_Color.png");
     RTRObject::Init();
 }
 

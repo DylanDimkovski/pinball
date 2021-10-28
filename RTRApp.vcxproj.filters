@@ -49,6 +49,9 @@
     <Filter Include="Resource Files\texture\wall">
       <UniqueIdentifier>{56fcc628-9559-4d06-a52a-264721f20160}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\peg">
+      <UniqueIdentifier>{696ff19c-47aa-43d0-8f0c-4da6b0e7e78e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\RTRApp.cpp">
@@ -88,6 +91,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Src\Transform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\RTRPeg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -132,6 +138,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\RTRPeg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -284,6 +293,12 @@
     </Image>
     <Image Include="Src\textures\wall\Tiles093_4K_Roughness.png">
       <Filter>Resource Files\texture\wall</Filter>
+    </Image>
+    <Image Include="Src\textures\peg\Plastic010_4K_Color.png">
+      <Filter>Resource Files\peg</Filter>
+    </Image>
+    <Image Include="Src\textures\peg\Plastic010_4K_Roughness.png">
+      <Filter>Resource Files\peg</Filter>
     </Image>
   </ItemGroup>
 </Project>

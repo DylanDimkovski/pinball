@@ -31,9 +31,11 @@ int MainApp::Init()
     if (m_SkyboxShader->Load("D:/Uni Work/RealTimeGraphics/A2_SURNAME_FIRSTNAME/Src/RTRSkybox.vert", "D:/Uni Work/RealTimeGraphics/A2_SURNAME_FIRSTNAME/Src/RTRSkybox.frag") != 0) {
         return -1;
     }
-    textures.push_back(texture->load_texture("Src/textures/table/Wood066_4K_Color.png"));
-    textures.push_back(texture->load_texture("Src/textures/wall/Tiles093_4K_Color.png"));
-    textures.push_back(texture->load_texture("Src/textures/ball/Marble012_4K_Color.png"));
+
+    textures.push_back(texture->load_texture("Src/textures/table/Wood066_4K_Color.png")); // Board
+    textures.push_back(texture->load_texture("Src/textures/wall/Tiles093_4K_Color.png")); // Wall
+    textures.push_back(texture->load_texture("Src/textures/ball/Marble012_4K_Color.png")); // Ball
+    textures.push_back(texture->load_texture("Src/textures/peg/Plastic010_4K_Color.png")); // Peg
 
     // Create and initialise camera
     m_Camera = new RTRCamera(glm::vec3(0.0, 6.5, 23.70), glm::vec3(0.0, 1.0, 0.0));
@@ -53,38 +55,36 @@ int MainApp::Init()
         .Quadratic = 0.0f
         });
 
-    float angle = glm::radians(25.0f);
-
     // Create Table Object
-    m_Cube = new RTRCube(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(10.0f, 1.0f, 15.0f), angle);
+    m_Cube = new RTRCube(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(10.0f, 1.0f, 15.0f));
     m_Cube->Init();
-    m_Cube->SetTexture("Src/textures/table/Wood066_4K_Color.png");
+    m_Cube->textureID = textures.at(0);
     Scale(m_Cube);
-    Rotate(m_Cube, angle, glm::vec3(1.0f, 0.0f, 0.0f));
+    Rotate(m_Cube, glm::radians(25.0f), glm::vec3(1.0f, 0.0f, 0.0f));
     Translate(m_Cube);
     Transform(m_Cube);
 
     // Create Walls
     // Bounds
-    walls.push_back(new RTRCube(glm::vec3(0.0f, 2.0f, -14.0f), glm::vec3(8.0f, 1.0f, 1.0f), angle)); // Top Wall 0
-    walls.push_back(new RTRCube(glm::vec3(-9.0f, 2.0f, 0.0f), glm::vec3(1.0f, 1.0f, 15.0f), angle)); // Left Wall 1
-    walls.push_back(new RTRCube(glm::vec3(9.0f, 2.0f, 0.0f), glm::vec3(1.0f, 1.0f, 15.0f), angle)); // Right Wall 2 
-    walls.push_back(new RTRCube(glm::vec3(0.0f, 2.0, 14.0f), glm::vec3(8.0f, 1.0f, 1.0f), angle)); // Bottom Wall 3
+    walls.push_back(new RTRCube(glm::vec3(0.0f, 2.0f, -14.0f), glm::vec3(8.0f, 1.0f, 1.0f))); // Top Wall 0
+    walls.push_back(new RTRCube(glm::vec3(-9.0f, 2.0f, 0.0f), glm::vec3(1.0f, 1.0f, 15.0f))); // Left Wall 1
+    walls.push_back(new RTRCube(glm::vec3(9.0f, 2.0f, 0.0f), glm::vec3(1.0f, 1.0f, 15.0f))); // Right Wall 2 
+    walls.push_back(new RTRCube(glm::vec3(0.0f, 2.0, 14.0f), glm::vec3(8.0f, 1.0f, 1.0f))); // Bottom Wall 3
 
     // Launcher Area
-    walls.push_back(new RTRCube(glm::vec3(5.0f, 2.0f, 5.0f), glm::vec3(1.0f, 1.0f, 8.0f), angle)); // Divider 4
+    walls.push_back(new RTRCube(glm::vec3(5.0f, 2.0f, 5.0f), glm::vec3(1.0f, 1.0f, 8.0f))); // Divider 4
 
     // Backboard Area
-    walls.push_back(new RTRCube(glm::vec3(-7.0f, 2.0f, -13.0f), glm::vec3(2.0f, 1.0f, 1.0f), angle)); // Left Corner 5
-    walls.push_back(new RTRCube(glm::vec3(7.0f, 2.0f, -13.0f), glm::vec3(2.0f, 1.0f, 1.0f), angle)); // Right Corner 6
+    walls.push_back(new RTRCube(glm::vec3(-7.0f, 2.0f, -13.0f), glm::vec3(2.0f, 1.0f, 1.0f))); // Left Corner 5
+    walls.push_back(new RTRCube(glm::vec3(7.0f, 2.0f, -13.0f), glm::vec3(2.0f, 1.0f, 1.0f))); // Right Corner 6
 
     // End Area
-    walls.push_back(new RTRCube(glm::vec3(-6.0f, 2.0f, 11.5f), glm::vec3(2.0f, 1.0f, 0.5f), angle)); // Left Wall 7
-    walls.push_back(new RTRCube(glm::vec3(2.0f, 2.0f, 11.5f), glm::vec3(2.0f, 1.0f, 0.5f), angle)); // Right Wall 8
+    walls.push_back(new RTRCube(glm::vec3(-6.0f, 2.0f, 11.5f), glm::vec3(2.0f, 1.0f, 0.5f))); // Left Wall 7
+    walls.push_back(new RTRCube(glm::vec3(2.0f, 2.0f, 11.5f), glm::vec3(2.0f, 1.0f, 0.5f))); // Right Wall 8
 
     // Peg Area
-    walls.push_back(new RTRCube(glm::vec3(-6.0f, 2.0f, 9.5f), glm::vec3(1.0f, 1.0f, 0.5f), angle)); // Left Wall 9
-    walls.push_back(new RTRCube(glm::vec3(2.0f, 2.0f, 9.5f), glm::vec3(1.0f, 1.0f, 0.5f), angle)); // Right Wall 10
+    walls.push_back(new RTRCube(glm::vec3(-6.0f, 2.0f, 9.5f), glm::vec3(1.0f, 1.0f, 0.5f))); // Left Wall 9
+    walls.push_back(new RTRCube(glm::vec3(2.0f, 2.0f, 9.5f), glm::vec3(1.0f, 1.0f, 0.5f))); // Right Wall 10
 
 
     // Y Axis Rotations
@@ -96,10 +96,25 @@ int MainApp::Init()
     for (int i = 0; i < walls.size(); i++) 
     {
         walls.at(i)->Init();
-        walls.at(i)->SetTexture("Src/textures/wall/Tiles093_4K_Color.png");
+        walls.at(i)->textureID = textures.at(1);
         Scale(walls.at(i));
         Translate(walls.at(i));
         Transform(walls.at(i), m_Cube);
+    }
+
+    pegs.push_back(new RTRPeg(glm::vec3(-5.0f, 2.0f, 9.93f), glm::vec3(0.5f, 0.5f, 1.0f), glm::radians(-115.0f))); // Left
+    pegs.push_back(new RTRPeg(glm::vec3(1.0f, 2.0f, 9.93f), glm::vec3(0.5f, 0.5f, 1.0f), glm::radians(115.0f))); // Right
+
+    Rotate(pegs.at(0), pegs.at(0)->rotation.x, glm::vec3(0.0f, 1.0f, 0.0f));
+    Rotate(pegs.at(1), pegs.at(1)->rotation.x, glm::vec3(0.0f, 1.0f, 0.0f));
+
+    for (int i = 0; i < pegs.size(); i++) 
+    {
+        pegs.at(i)->Init();
+        pegs.at(i)->textureID = textures.at(3);
+        Translate(pegs.at(i));
+        Scale(pegs.at(i));
+        Transform(pegs.at(i), m_Cube);
     }
 
     // Create and initialise skybox
@@ -123,6 +138,14 @@ void MainApp::Done()
     for (int i = 0; i < balls.size(); i++) 
     {
         balls.at(i)->End(); delete balls.at(i);
+    }
+    for (int i = 0; i < walls.size(); i++)
+    {
+        walls.at(i)->End(); delete walls.at(i);
+    }
+    for (int i = 0; i < pegs.size(); i++)
+    {
+        pegs.at(i)->End(); delete pegs.at(i);
     }
     m_Console->End(); delete m_Console;
     m_SkyBox->End(); delete m_SkyBox;
@@ -161,6 +184,7 @@ void MainApp::CheckInput()
                     case SDLK_DOWN: m_TiltingDown = true; break;
                     case SDLK_SPACE: m_Paused = !m_Paused; break;
                     case SDLK_RETURN: m_AddBall = true; break;
+                    case SDLK_COMMA: m_LeftPegTurning = true; break;
                 }
                 break;
             case SDL_KEYUP:
@@ -174,6 +198,7 @@ void MainApp::CheckInput()
                     case SDLK_UP: m_TiltingUp = false; break;
                     case SDLK_DOWN: m_TiltingDown = false; break;
                     case SDLK_RETURN: m_AddBall = false; break;
+                    case SDLK_COMMA: m_LeftPegTurning = false; break;
                 }
                 break;
         }
@@ -183,6 +208,7 @@ void MainApp::CheckInput()
 void MainApp::UpdateState(unsigned int td_milli)
 {
     float delta = m_TimeDelta / 1000.0f;
+    float angle = 5.0f * delta;
 
     // Update camera position based on keybard state checked earlier and saved
     if (m_MovingForward == true) m_Camera->MoveForward(td_milli);
@@ -203,6 +229,7 @@ void MainApp::UpdateState(unsigned int td_milli)
 
     if (!m_Paused && balls.size() > 0) 
     {
+        // Check Collisions
         for (int i = 0; i < balls.size(); i++) 
         {
             balls.at(i)->movement->velocity += balls.at(i)->movement->gravity * delta;
@@ -222,7 +249,29 @@ void MainApp::UpdateState(unsigned int td_milli)
                     physics.SphereOBB_Resolution((RTRSphere*)balls.at(i), m_Cube, (RTRCube*)walls.at(j));
                 }
             }
+
+            for (int j = 0; j < balls.size(); j++) 
+            {
+                if (physics.SphereSphere_Detection(balls.at(i), balls.at(j)) && balls.at(i) != balls.at(j)) 
+                {
+                    physics.SphereSphere_Resolution(balls.at(i), balls.at(j));
+                }
+            }
         }
+    }
+
+    if (!m_Paused) 
+    {
+        // Check Peg Movement
+        if (m_LeftPegTurning)
+        {
+            Rotate(pegs.at(0), glm::radians(angle), glm::vec3(0.0f, 1.0f, 0.0f));
+        }
+        else
+        {
+            Rotate(pegs.at(0), glm::radians(-angle), glm::vec3(0.0f, 1.0f, 0.0f));
+        }
+        Transform(pegs.at(0), m_Cube);
     }
 }
 
@@ -255,11 +304,13 @@ void MainApp::RenderFrame()
         balls.at(i)->model_matrix = glm::translate(m_ModelMatrix, balls.at(i)->position);
         m_DefaultShader->SetMat4("u_ModelMatrix", balls.at(i)->model_matrix);
         balls.at(i)->Render(m_DefaultShader);
-        if (!balls.at(i)->is_created)
-        {
-            balls.at(i)->movement->velocity = glm::mat3(m_Cube->orientation_matrix) * glm::vec3(0.0f, 0.0f, -50.0f);
-            balls.at(i)->is_created = true;
-        }
+    }
+
+    // Render Pegs
+    for (int i = 0; i < pegs.size(); i++) 
+    {
+        m_DefaultShader->SetMat4("u_ModelMatrix", pegs.at(i)->model_matrix);
+        pegs.at(i)->Render(m_DefaultShader);
     }
 
     // Skybox
@@ -282,7 +333,8 @@ void MainApp::add_ball()
     {
         RTRObject* m_Sphere = new RTRSphere();
         m_Sphere->Init();
-        m_Sphere->textureID = ball;
+        m_Sphere->textureID = textures.at(2);
+        m_Sphere->movement->velocity = glm::mat3(m_Cube->orientation_matrix) * glm::vec3(0.0f, 0.0f, -50.0f);
         balls.push_back(m_Sphere);
     }
 }

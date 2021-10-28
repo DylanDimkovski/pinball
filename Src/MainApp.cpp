@@ -31,6 +31,9 @@ int MainApp::Init()
     if (m_SkyboxShader->Load("D:/Uni Work/RealTimeGraphics/A2_SURNAME_FIRSTNAME/Src/RTRSkybox.vert", "D:/Uni Work/RealTimeGraphics/A2_SURNAME_FIRSTNAME/Src/RTRSkybox.frag") != 0) {
         return -1;
     }
+    textures.push_back(texture->load_texture("Src/textures/table/Wood066_4K_Color.png"));
+    textures.push_back(texture->load_texture("Src/textures/wall/Tiles093_4K_Color.png"));
+    textures.push_back(texture->load_texture("Src/textures/ball/Marble012_4K_Color.png"));
 
     // Create and initialise camera
     m_Camera = new RTRCamera(glm::vec3(0.0, 6.5, 23.70), glm::vec3(0.0, 1.0, 0.0));
@@ -72,50 +75,32 @@ int MainApp::Init()
     walls.push_back(new RTRCube(glm::vec3(5.0f, 2.0f, 5.0f), glm::vec3(1.0f, 1.0f, 8.0f), angle)); // Divider 4
 
     // Backboard Area
-    walls.push_back(new RTRCube(glm::vec3(-2.0f, 2.0f, -14.0f), glm::vec3(2.0f, 1.0f, 1.0f), angle)); // Left Corner 5
-    walls.push_back(new RTRCube(glm::vec3(2.0f, 2.0f, -14.0f), glm::vec3(2.0f, 1.0f, 1.0f), angle)); // Right Corner 6
+    walls.push_back(new RTRCube(glm::vec3(-7.0f, 2.0f, -13.0f), glm::vec3(2.0f, 1.0f, 1.0f), angle)); // Left Corner 5
+    walls.push_back(new RTRCube(glm::vec3(7.0f, 2.0f, -13.0f), glm::vec3(2.0f, 1.0f, 1.0f), angle)); // Right Corner 6
 
-    // Peg Area
+    // End Area
     walls.push_back(new RTRCube(glm::vec3(-6.0f, 2.0f, 11.5f), glm::vec3(2.0f, 1.0f, 0.5f), angle)); // Left Wall 7
     walls.push_back(new RTRCube(glm::vec3(2.0f, 2.0f, 11.5f), glm::vec3(2.0f, 1.0f, 0.5f), angle)); // Right Wall 8
 
-    walls.push_back(new RTRCube(glm::vec3(-2.0f, 2.0f, 10.5f), glm::vec3(1.0f, 1.0f, 0.5f), angle)); // Left Wall 9
-    walls.push_back(new RTRCube(glm::vec3(-2.0f, 2.0f, 9.1f), glm::vec3(1.0f, 1.0f, 0.5f), angle)); // Right Wall 10
+    // Peg Area
+    walls.push_back(new RTRCube(glm::vec3(-6.0f, 2.0f, 9.5f), glm::vec3(1.0f, 1.0f, 0.5f), angle)); // Left Wall 9
+    walls.push_back(new RTRCube(glm::vec3(2.0f, 2.0f, 9.5f), glm::vec3(1.0f, 1.0f, 0.5f), angle)); // Right Wall 10
+
+
+    // Y Axis Rotations
+    Rotate(walls.at(5), glm::radians(20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    Rotate(walls.at(6), glm::radians(-20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    Rotate(walls.at(9), glm::radians(-20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    Rotate(walls.at(10), glm::radians(20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
     for (int i = 0; i < walls.size(); i++) 
     {
         walls.at(i)->Init();
         walls.at(i)->SetTexture("Src/textures/wall/Tiles093_4K_Color.png");
-        Translate(walls.at(i));
         Scale(walls.at(i));
-        Rotate(walls.at(i), angle, glm::vec3(1.0f, 0.0f, 0.0f));
-    
-        if (i == 5) 
-        {
-            Rotate(walls.at(i), glm::radians(20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        }
-    
-        if (i == 6)
-        {
-            Rotate(walls.at(i), glm::radians(-20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        }
-
-        if (i == 9) 
-        {
-            Rotate(walls.at(i), glm::radians(-20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        }
-
-        if (i == 10)
-        {
-            Rotate(walls.at(i), glm::radians(20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        }
-
-        Transform(walls.at(i));
+        Translate(walls.at(i));
+        Transform(walls.at(i), m_Cube);
     }
-
-    // Create Ball Object
-    m_Sphere = new RTRSphere();
-    m_Sphere->Init();
 
     // Create and initialise skybox
     m_SkyBox = new RTRSkybox();
@@ -135,7 +120,10 @@ int MainApp::Init()
 void MainApp::Done()
 {
     m_Cube->End(); delete m_Cube;
-    m_Sphere->End(); delete m_Sphere;
+    for (int i = 0; i < balls.size(); i++) 
+    {
+        balls.at(i)->End(); delete balls.at(i);
+    }
     m_Console->End(); delete m_Console;
     m_SkyBox->End(); delete m_SkyBox;
     delete m_DefaultShader;
@@ -172,7 +160,7 @@ void MainApp::CheckInput()
                     case SDLK_UP: m_TiltingUp = true; break;
                     case SDLK_DOWN: m_TiltingDown = true; break;
                     case SDLK_SPACE: m_Paused = !m_Paused; break;
-                    case SDLK_RETURN: m_Paused = false; m_Sphere->movement->velocity.z += 50.0f;
+                    case SDLK_RETURN: m_AddBall = true; break;
                 }
                 break;
             case SDL_KEYUP:
@@ -185,6 +173,7 @@ void MainApp::CheckInput()
                     case SDLK_RIGHT: m_TurningRight = false; break;
                     case SDLK_UP: m_TiltingUp = false; break;
                     case SDLK_DOWN: m_TiltingDown = false; break;
+                    case SDLK_RETURN: m_AddBall = false; break;
                 }
                 break;
         }
@@ -193,6 +182,8 @@ void MainApp::CheckInput()
 
 void MainApp::UpdateState(unsigned int td_milli)
 {
+    float delta = m_TimeDelta / 1000.0f;
+
     // Update camera position based on keybard state checked earlier and saved
     if (m_MovingForward == true) m_Camera->MoveForward(td_milli);
     if (m_MovingBackward == true) m_Camera->MoveBackward(td_milli);
@@ -202,6 +193,7 @@ void MainApp::UpdateState(unsigned int td_milli)
     if (m_StrafingRight == true) m_Camera->StrafeRight(td_milli);
     if (m_TiltingUp == true) m_Camera->TiltUp(td_milli);
     if (m_TiltingDown == true) m_Camera->TiltDown(td_milli);
+    if (m_AddBall == true) add_ball();
 
     // Update directional camera to align with camera forward direction
     m_LightingModel->GetLight(0)->Direction = m_Camera->m_Front;
@@ -209,39 +201,26 @@ void MainApp::UpdateState(unsigned int td_milli)
     // Setup Model and View matrices
     m_ViewMatrix = m_Camera->GetViewMatrix();
 
-    if (!m_Paused) 
+    if (!m_Paused && balls.size() > 0) 
     {
-        // Sphere -> Board Detection Collision and Resolution
-        if (!physics.SphereOBB_Detection((RTRSphere*)m_Sphere, (RTRCube*)m_Cube))
+        for (int i = 0; i < balls.size(); i++) 
         {
-            // Fall until the Table is hit
-            if (m_Sphere->movement->velocity.y > -0.1 && m_Sphere->movement->velocity.y < 100.0f)
-            {
-                m_Sphere->movement->velocity.y += glm::length(m_Sphere->movement->gravity) * (m_TimeDelta / 1000.0f);
-            }
-            else if (m_Sphere->movement->velocity.y > 100.0f)
-            {
-                m_Sphere->movement->velocity.y = 100.0f;
-            }
-            else
-            {
-                m_Sphere->movement->velocity.y = 0;
-            }
-            m_Sphere->position -= m_Sphere->movement->velocity * glm::vec3(m_TimeDelta / 1000.0f);
-        }
-        else
-        {
-            m_Sphere->movement->velocity = physics.SphereOBB_Resolution((RTRSphere*)m_Sphere, (RTRCube*)m_Cube);
-            m_Sphere->position -= m_Sphere->movement->velocity * glm::vec3(m_TimeDelta / 1000.0f);
-        }
+            balls.at(i)->movement->velocity += balls.at(i)->movement->gravity * delta;
+            balls.at(i)->position += balls.at(i)->movement->velocity * delta;
 
-        // Sphere -> Walls Detection Collision and Resolution
-        for (int i = 0; i < walls.size(); i++)
-        {
-            if (physics.SphereOBB_Detection((RTRSphere*)m_Sphere, (RTRCube*)walls.at(i)))
+            // Sphere -> Board Detection Collision and Resolution
+            if (physics.SphereOBB_Detection((RTRSphere*)balls.at(i), (RTRCube*)m_Cube))
             {
-                m_Sphere->movement->velocity = physics.SphereOBB_Resolution((RTRSphere*)m_Sphere, (RTRCube*)walls.at(i));
-                m_Sphere->position -= m_Sphere->movement->velocity * glm::vec3(m_TimeDelta / 1000.0f);
+                physics.SphereOBB_Resolution((RTRSphere*)balls.at(i), (RTRCube*)m_Cube);
+            }
+
+            // Sphere -> Walls Detection Collision and Resolution
+            for (int j = 0; j < walls.size(); j++)
+            {
+                if (physics.SphereOBB_Detection((RTRSphere*)balls.at(i), m_Cube, (RTRCube*)walls.at(j)))
+                {
+                    physics.SphereOBB_Resolution((RTRSphere*)balls.at(i), m_Cube, (RTRCube*)walls.at(j));
+                }
             }
         }
     }
@@ -263,16 +242,25 @@ void MainApp::RenderFrame()
     m_DefaultShader->SetMat4("u_ModelMatrix", m_Cube->model_matrix);
     m_Cube->Render(m_DefaultShader);
 
+    // Render Walls
     for (int i = 0; i < walls.size(); i++) 
     {
         m_DefaultShader->SetMat4("u_ModelMatrix", walls.at(i)->model_matrix);
         walls.at(i)->Render(m_DefaultShader);
     }
 
-    // Render the Sphere
-    m_Sphere->model_matrix = glm::translate(m_ModelMatrix, m_Sphere->position);
-    m_DefaultShader->SetMat4("u_ModelMatrix", m_Sphere->model_matrix);
-    m_Sphere->Render(m_DefaultShader);
+    // Render Balls
+    for (int i = 0; i < balls.size(); i++) 
+    {
+        balls.at(i)->model_matrix = glm::translate(m_ModelMatrix, balls.at(i)->position);
+        m_DefaultShader->SetMat4("u_ModelMatrix", balls.at(i)->model_matrix);
+        balls.at(i)->Render(m_DefaultShader);
+        if (!balls.at(i)->is_created)
+        {
+            balls.at(i)->movement->velocity = glm::mat3(m_Cube->orientation_matrix) * glm::vec3(0.0f, 0.0f, -50.0f);
+            balls.at(i)->is_created = true;
+        }
+    }
 
     // Skybox
     glUseProgram(m_SkyboxShader->GetId());
@@ -282,10 +270,21 @@ void MainApp::RenderFrame()
     // Print out all debug info
     m_Console->Render("DEBUG", m_FPS,
         m_Camera->m_Position.x, m_Camera->m_Position.y, m_Camera->m_Position.z,
-        m_Camera->m_Yaw, m_Camera->m_Pitch);
+        m_Camera->m_Yaw, m_Camera->m_Pitch, m_Paused, balls.size());
 
     // Swap buffers
     SDL_GL_SwapWindow(m_SDLWindow);
+}
+
+void MainApp::add_ball()
+{
+    if (m_Paused != true) 
+    {
+        RTRObject* m_Sphere = new RTRSphere();
+        m_Sphere->Init();
+        m_Sphere->textureID = ball;
+        balls.push_back(m_Sphere);
+    }
 }
 
 //-----------------------------------------------------------------------------

@@ -22,6 +22,6 @@ public:
     float roll_delta = 0;
     float yaw_delta = 0;
 
-    float gravity = 0;
+    glm::vec3 gravity = glm::vec3(0.0f, -100.0f, 0.0f);
     float friction = 0;
 };

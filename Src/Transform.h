@@ -1,22 +1,15 @@
 #pragma once
 #include <glm/ext.hpp>
+#include "RTRObject.h"
 
-void Transform(RTRObject* object)
-{
-	object->model_matrix = object->orientation_matrix * object->translate_matrix * object->scale_matrix;
-}
+void Transform(RTRObject* object);
 
-void Rotate(RTRObject* object, float angle, glm::vec3 direction) 
-{
-	object->orientation_matrix = glm::rotate(object->orientation_matrix, angle, direction);
-}
+void Transform(RTRObject* object, RTRObject* parent);
 
-void Translate(RTRObject* object)
-{
-	object->translate_matrix = glm::translate(object->translate_matrix, object->position);
-};
+glm::mat4 Rotate_Child(RTRObject* child, RTRObject* parent);
 
-void Scale(RTRObject* object)
-{
-	object->scale_matrix = glm::scale(object->scale_matrix, object->size);
-};
+void Rotate(RTRObject* object, float angle, glm::vec3 direction);
+
+void Translate(RTRObject* object);
+
+void Scale(RTRObject* object);

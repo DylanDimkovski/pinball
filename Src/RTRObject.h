@@ -40,6 +40,8 @@ public:
     unsigned int m_FaceElementBuffer{ 0 };
     unsigned int textureID = 0;
 
+    bool is_created = false;
+
     float distance = 0;
 
     std::vector<glm::vec2> texCoords;
@@ -51,9 +53,9 @@ public:
     glm::vec3 rotation{ 0.0f };
     glm::vec3 position{ 0.0f };
 
-    glm::mat4 model_matrix{ 1.0f };
+    glm::mat4 model_matrix = glm::identity<glm::mat4>();
 
-    glm::mat4 orientation_matrix{ 1.0f };
-    glm::mat4 translate_matrix{ 1.0f };
-    glm::mat4 scale_matrix{ 1.0f };
+    glm::mat4 orientation_matrix = glm::identity<glm::mat4>();
+    glm::mat4 translate_matrix = glm::identity<glm::mat4>();;
+    glm::mat4 scale_matrix = glm::identity<glm::mat4>();;
 };

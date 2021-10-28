@@ -3,7 +3,6 @@
 
 void RTRSphere::Init()
 {
-    movement->gravity = 100.0f;
     size = { 0.275f, 0.275f, 0.275f };
     position = { 7.0f, -3.0f, 10.0f };
     float x, y, z, xy;                              // vertex position
@@ -75,8 +74,8 @@ void RTRSphere::Init()
             }
         }
     }
+    //textureID = texture->load_texture("Src/textures/ball/Marble012_4K_Color.png");
     RTRObject::Init();
-    textureID = texture->load_texture("Src/textures/ball/Marble012_4K_Color.png");
 }
 
 void RTRSphere::End()

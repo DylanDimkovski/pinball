@@ -27,7 +27,7 @@ void RTRObject::Init()
     glBufferData(GL_ARRAY_BUFFER, texCoords.size() * sizeof(glm::vec2), &texCoords[0], GL_STATIC_DRAW);
 
     glGenVertexArrays(1, &m_VertexArray);
-    glBindVertexArray(m_VertexArray);
+    glBindVertexArray(m_VertexArray); 
 
     glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer);
 

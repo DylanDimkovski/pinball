@@ -31,6 +31,7 @@
     <ClCompile Include="Src\RTRSkybox.cpp" />
     <ClCompile Include="Src\RTRSphere.cpp" />
     <ClCompile Include="Src\RTRTexture.cpp" />
+    <ClCompile Include="Src\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\RTRCube.h" />

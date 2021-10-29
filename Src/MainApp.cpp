@@ -185,6 +185,7 @@ void MainApp::CheckInput()
                     case SDLK_SPACE: m_Paused = !m_Paused; break;
                     case SDLK_RETURN: m_AddBall = true; break;
                     case SDLK_COMMA: m_LeftPegTurning = true; break;
+                    case SDLK_PERIOD: m_RightPegTurning = true; break;
                 }
                 break;
             case SDL_KEYUP:
@@ -199,6 +200,7 @@ void MainApp::CheckInput()
                     case SDLK_DOWN: m_TiltingDown = false; break;
                     case SDLK_RETURN: m_AddBall = false; break;
                     case SDLK_COMMA: m_LeftPegTurning = false; break;
+                    case SDLK_PERIOD: m_RightPegTurning = false; break;
                 }
                 break;
         }
@@ -208,7 +210,8 @@ void MainApp::CheckInput()
 void MainApp::UpdateState(unsigned int td_milli)
 {
     float delta = m_TimeDelta / 1000.0f;
-    float angle = 5.0f * delta;
+    float a1 = 0.0f;
+    float a2 = 0.0f;
 
     // Update camera position based on keybard state checked earlier and saved
     if (m_MovingForward == true) m_Camera->MoveForward(td_milli);
@@ -265,13 +268,36 @@ void MainApp::UpdateState(unsigned int td_milli)
         // Check Peg Movement
         if (m_LeftPegTurning)
         {
-            Rotate(pegs.at(0), glm::radians(angle), glm::vec3(0.0f, 1.0f, 0.0f));
+            a1 += 1.0f * delta;
+            if (a1 < glm::radians(80.0f)) 
+            {
+                Rotate(pegs.at(0), a1, glm::vec3(0.0f, 1.0f, 0.0f));
+                Transform(pegs.at(0), m_Cube);
+            }
         }
         else
         {
-            Rotate(pegs.at(0), glm::radians(-angle), glm::vec3(0.0f, 1.0f, 0.0f));
+            a1 -= 1.0f * delta;
+            if (a1 > glm::radians(-130.0f)) 
+            {
+                Rotate(pegs.at(0), a1, glm::vec3(0.0f, 1.0f, 0.0f));
+                Transform(pegs.at(0), m_Cube);
+            }
         }
-        Transform(pegs.at(0), m_Cube);
+
+        // Check Peg Movement
+        if (m_RightPegTurning)
+        {
+            a2 -= 1.0f * delta;
+            Rotate(pegs.at(1), a2, glm::vec3(0.0f, 1.0f, 0.0f));
+            Transform(pegs.at(1), m_Cube);
+        }
+        else
+        {
+            a2 += 1.0f * delta;
+            Rotate(pegs.at(1), a2, glm::vec3(0.0f, 1.0f, 0.0f));
+            Transform(pegs.at(1), m_Cube);
+        }
     }
 }
 

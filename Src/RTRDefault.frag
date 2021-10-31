@@ -45,7 +45,9 @@ struct RTRMaterial {
     vec3 Specular;
     float Shininess;
 };
+
 uniform sampler2D texture1;
+uniform samplerCube u_SkyBox;
 uniform bool texture_used;
 uniform mat4 u_ModelMatrix;
 uniform mat4 u_ViewMatrix;
@@ -55,6 +57,14 @@ uniform RTRLight    u_Lights[RTR_MAX_LIGHTS];
 uniform RTRMaterial u_ObjectMaterial;
 uniform RTRCamera   u_Camera;
 uniform float u_CurTime;
+uniform float u_Reflect;
+
+vec4 reflection()
+{
+    vec3 I = normalize(fs_in.FragPos -u_Camera.Position);
+    vec3 R = reflect(I, normalize(fs_in.Normal));
+    return vec4(texture(u_SkyBox, R).rgb, 1.0);
+}
 
 void main() 
 {
@@ -116,4 +126,5 @@ void main()
     }
     
     f_FragColor = vec4(final_color, 1.0f);
+    f_FragColor += reflection() * u_Reflect;
 }

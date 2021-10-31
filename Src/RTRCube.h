@@ -9,9 +9,9 @@ public:
         position = object_position;
         size = object_size;
     }
-    ~RTRCube() {}
+    ~RTRCube() {};
     virtual void Init();
-    virtual const char* GetName() { return "RTRCube"; }
+    virtual const char* GetName() { return "RTRCube"; };
 
     float tex_scale = 10.0f;
 };

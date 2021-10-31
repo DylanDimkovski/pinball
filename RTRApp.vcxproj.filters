@@ -52,12 +52,15 @@
     <Filter Include="Resource Files\peg">
       <UniqueIdentifier>{696ff19c-47aa-43d0-8f0c-4da6b0e7e78e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\pog">
+      <UniqueIdentifier>{f663300b-b58a-4495-89f8-f597aa0457ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\bumpers">
+      <UniqueIdentifier>{8660e760-263e-4a5d-bfda-c4b270d8429a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\RTRApp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Include\glad\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Src\MainApp.cpp">
@@ -97,6 +100,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Src\RTRGrid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\glad\glad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\RTRCylinder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -147,6 +156,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\RTRGrid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\RTRCollision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\RTRCyclinder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -305,6 +320,18 @@
     </Image>
     <Image Include="Src\textures\peg\Plastic010_4K_Roughness.png">
       <Filter>Resource Files\peg</Filter>
+    </Image>
+    <Image Include="Src\textures\pog\Wood048_4K_Color.png">
+      <Filter>Resource Files\pog</Filter>
+    </Image>
+    <Image Include="Src\textures\pog\Wood048_4K_Roughness.png">
+      <Filter>Resource Files\pog</Filter>
+    </Image>
+    <Image Include="Src\textures\bump\Fabric051_4K_Color.png">
+      <Filter>Resource Files\bumpers</Filter>
+    </Image>
+    <Image Include="Src\textures\bump\Fabric051_4K_Roughness.png">
+      <Filter>Resource Files\bumpers</Filter>
     </Image>
   </ItemGroup>
 </Project>

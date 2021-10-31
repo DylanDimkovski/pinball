@@ -83,3 +83,33 @@ void RTRSphere::End()
     std::vector<glm::vec2>().swap(texCoords);
     RTRObject::End();
 }
+
+void RTRSphere::debug(glm::mat4 projection, glm::mat4 view)
+{
+    glDisable(GL_CULL_FACE);
+    glDisable(GL_TEXTURE);
+    glUseProgram(0);
+    glBindVertexArray(0);
+
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadMatrixf(glm::value_ptr(projection));
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadMatrixf(glm::value_ptr(view));
+
+    glPushMatrix();
+
+    glColor3f(0.0f, 1.0f, 0.0f);
+
+    glTranslatef(position.x, position.y, position.z);
+
+    glBegin(GL_LINES);
+    glVertex3f(0, 0, 0);
+    glVertex3fv(glm::value_ptr(glm::normalize(movement->velocity) * 1.5f));
+    glEnd();
+    glPopMatrix();
+
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}

@@ -8,6 +8,8 @@ void Transform(RTRObject* object, RTRObject* parent);
 
 glm::mat4 Rotate_Child(RTRObject* child, RTRObject* parent);
 
+void SetRotation(RTRObject* object, float angle, glm::vec3 direction);
+
 void Rotate(RTRObject* object, float angle, glm::vec3 direction);
 
 void Translate(RTRObject* object);

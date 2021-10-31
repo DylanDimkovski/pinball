@@ -58,7 +58,7 @@ void RTRObject::Render(RTRShader *shader)
     glActiveTexture(GL_TEXTURE0 + 1);
     glBindTexture(GL_TEXTURE_2D, textureID);
     if (indices.size() > 0) glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
-    else glDrawArrays(GL_TRIANGLES, 0, 36);
+    else glDrawArrays(GL_TRIANGLES, 0, vertices.size());
     glBindVertexArray(0);
 }
 
@@ -73,4 +73,37 @@ void RTRObject::End()
     std::vector<unsigned int>().swap(indices);
     std::vector<glm::vec2> ().swap(texCoords);
     delete texture;
+}
+
+
+void RTRObject::debug(glm::mat4 projection, glm::mat4 view)
+{
+    glDisable(GL_CULL_FACE);
+    glDisable(GL_TEXTURE);
+    glUseProgram(0);
+    glBindVertexArray(0);
+
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadMatrixf(glm::value_ptr(projection));
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadMatrixf(glm::value_ptr(view * model_matrix));
+
+    glPushMatrix();
+
+    glColor3f(1.0f, 0.0f, 0.0f);
+
+    glm::vec3 pos = glm::mat3(orientation_matrix) * model_matrix[3];
+
+    glBegin(GL_TRIANGLES);
+    for (auto i : vertices)
+    {
+        glVertex3fv(glm::value_ptr(i));
+    }
+    glEnd();
+    glPopMatrix();
+
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }

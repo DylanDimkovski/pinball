@@ -13,7 +13,7 @@ int RTRApp::Init()
         return -1;
     }
 
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
 
@@ -66,13 +66,6 @@ int RTRApp::Init()
         std::cerr << "RTR:WARNING: SDL coudn't retrieve current display mode details." << std::endl;
     }
 
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
-
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
-    glFrontFace(GL_CCW);
-
     std::cout << "RTR:MESSAGE: OpenGL version " << GLVersion.major << "." << GLVersion.minor << " initialised." << std::endl;
     return 0;
 }
@@ -81,6 +74,10 @@ void RTRApp::Run()
 {
     bool quit_app = false;
     while (quit_app == false) {
+        glEnable(GL_DEPTH_TEST);
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
+
         static unsigned int fps_counter = 0;
         static unsigned int fps_time = 0;
         static unsigned int last_time = 0;
@@ -99,6 +96,7 @@ void RTRApp::Run()
         m_CurTime = cur_time;
         m_TimeDelta = td_milli;
         quit_app = Tick();
+        SDL_GL_SwapWindow(m_SDLWindow);
     }
 }
 

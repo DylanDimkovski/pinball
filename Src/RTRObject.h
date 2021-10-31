@@ -28,6 +28,7 @@ public:
     virtual void End();
     void SetMaterial(RTRMaterial_t mat) { m_Material = mat; }
     void SetTexture(char const* filename) { textureID = texture->load_texture(filename); }
+    void debug(glm::mat4 projection, glm::mat4 view);
     virtual const char* GetName() { return "RTRObject"; }
 
     RTRTexture* texture = new RTRTexture();
@@ -40,6 +41,7 @@ public:
     unsigned int m_FaceElementBuffer{ 0 };
     unsigned int textureID = 0;
 
+    float reflect = 0.0f;
     float distance = 0;
     float angle = 0;
 

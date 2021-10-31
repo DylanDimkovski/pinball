@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Include\glad\glad.c" />
     <ClCompile Include="Src\RTRCube.cpp" />
+    <ClCompile Include="Src\RTRCylinder.cpp" />
     <ClCompile Include="Src\RTRGrid.cpp" />
     <ClCompile Include="Src\RTRMovement.cpp" />
     <ClCompile Include="Src\RTRObject.cpp" />
@@ -36,6 +37,8 @@
     <ClCompile Include="Src\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\RTRCollision.h" />
+    <ClInclude Include="Src\RTRCyclinder.h" />
     <ClInclude Include="Src\RTRGrid.h" />
     <ClInclude Include="Src\RTRPeg.h" />
     <ClInclude Include="Src\RTRCube.h" />
@@ -126,8 +129,12 @@
     <Image Include="Src\skyboxs\skybox\top.jpg" />
     <Image Include="Src\textures\ball\Marble012_4K_Color.png" />
     <Image Include="Src\textures\ball\Marble012_4K_Roughness.png" />
+    <Image Include="Src\textures\bump\Fabric051_4K_Color.png" />
+    <Image Include="Src\textures\bump\Fabric051_4K_Roughness.png" />
     <Image Include="Src\textures\peg\Plastic010_4K_Color.png" />
     <Image Include="Src\textures\peg\Plastic010_4K_Roughness.png" />
+    <Image Include="Src\textures\pog\Wood048_4K_Color.png" />
+    <Image Include="Src\textures\pog\Wood048_4K_Roughness.png" />
     <Image Include="Src\textures\table\Wood066_4K_Color.png" />
     <Image Include="Src\textures\table\Wood066_4K_Roughness.png" />
     <Image Include="Src\textures\wall\Tiles093_4K_Color.png" />

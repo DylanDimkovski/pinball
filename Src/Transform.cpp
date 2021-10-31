@@ -15,6 +15,11 @@ glm::mat4 Rotate_Child(RTRObject* child, RTRObject* parent)
 	return parent->orientation_matrix * child->orientation_matrix;
 }
 
+void SetRotation(RTRObject* object, float angle, glm::vec3 direction)
+{
+	object->orientation_matrix = glm::rotate(glm::identity<glm::mat4>(), angle, direction);
+}
+
 void Rotate(RTRObject* object, float angle, glm::vec3 direction)
 {
 	object->orientation_matrix = glm::rotate(object->orientation_matrix, angle, direction);

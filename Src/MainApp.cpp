@@ -36,6 +36,8 @@ int MainApp::Init()
     textures.push_back(texture->load_texture("Src/textures/wall/Tiles093_4K_Color.png")); // Wall
     textures.push_back(texture->load_texture("Src/textures/ball/Marble012_4K_Color.png")); // Ball
     textures.push_back(texture->load_texture("Src/textures/peg/Plastic010_4K_Color.png")); // Peg
+    textures.push_back(texture->load_texture("Src/textures/pog/Wood048_4K_Color.png")); // Pog
+    textures.push_back(texture->load_texture("Src/textures/bump/Fabric051_4K_Color.png")); // Bumper
 
     // Create and initialise camera
     m_Camera = new RTRCamera(glm::vec3(0.0, 6.5, 23.70), glm::vec3(0.0, 1.0, 0.0));
@@ -59,6 +61,7 @@ int MainApp::Init()
     m_Cube = new RTRCube(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(10.0f, 1.0f, 15.0f));
     m_Cube->Init();
     m_Cube->textureID = textures.at(0);
+    m_Cube->reflect = 0.2f;
     Scale(m_Cube);
     Rotate(m_Cube, glm::radians(25.0f), glm::vec3(1.0f, 0.0f, 0.0f));
     Translate(m_Cube);
@@ -96,26 +99,78 @@ int MainApp::Init()
     for (int i = 0; i < walls.size(); i++) 
     {
         walls.at(i)->Init();
+        walls.at(i)->reflect = 0.3f;
         walls.at(i)->textureID = textures.at(1);
         Scale(walls.at(i));
         Translate(walls.at(i));
         Transform(walls.at(i), m_Cube);
     }
 
-    pegs.push_back(new RTRPeg(glm::vec3(-5.0f, 2.0f, 9.93f), glm::vec3(0.5f, 0.5f, 1.0f), glm::radians(-115.0f))); // Left
-    pegs.push_back(new RTRPeg(glm::vec3(1.0f, 2.0f, 9.93f), glm::vec3(0.5f, 0.5f, 1.0f), glm::radians(115.0f))); // Right
+    // Add Flippers
+    flippers.push_back(new RTRPeg(glm::vec3(-5.0f, 2.0f, 9.93f), glm::vec3(0.5f, 1.0f, 1.0f), glm::radians(-115.0f))); // Left
+    flippers.push_back(new RTRPeg(glm::vec3(1.0f, 2.0f, 9.93f), glm::vec3(0.5f, 1.0f, 1.0f), glm::radians(115.0f))); // Right
 
-    Rotate(pegs.at(0), pegs.at(0)->rotation.x, glm::vec3(0.0f, 1.0f, 0.0f));
-    Rotate(pegs.at(1), pegs.at(1)->rotation.x, glm::vec3(0.0f, 1.0f, 0.0f));
+    Rotate(flippers.at(0), flippers.at(0)->rotation.x, glm::vec3(0.0f, 1.0f, 0.0f));
+    Rotate(flippers.at(1), flippers.at(1)->rotation.x, glm::vec3(0.0f, 1.0f, 0.0f));
 
-    for (int i = 0; i < pegs.size(); i++) 
+    for (int i = 0; i < flippers.size(); i++)
     {
-        pegs.at(i)->Init();
-        pegs.at(i)->textureID = textures.at(3);
-        Translate(pegs.at(i));
-        Scale(pegs.at(i));
-        Transform(pegs.at(i), m_Cube);
+        flippers.at(i)->Init();
+        flippers.at(i)->textureID = textures.at(3);
+        Translate(flippers.at(i));
+        Scale(flippers.at(i));
+        Transform(flippers.at(i), m_Cube);
     }
+
+    // Add Pogs
+    pogs.push_back(new RTRCyclinder(38.0f, 8.0f, 8.0f, glm::vec3(0.0f, 1.0f, -8.0f), glm::vec3(0.5f, 0.5f, 0.5f)));
+    pogs.push_back(new RTRCyclinder(38.0f, 8.0f, 8.0f, glm::vec3(-2.0f, 1.0f, -6.0f), glm::vec3(0.5f, 0.5f, 0.5f)));
+    pogs.push_back(new RTRCyclinder(38.0f, 8.0f, 8.0f, glm::vec3(2.0f, 1.0f, -6.0f), glm::vec3(0.5f, 0.5f, 0.5f)));
+
+    for (auto i : pogs) 
+    {
+        i->Init();
+        i->textureID = textures.at(4);
+        i->reflect = 0.3f;
+
+        Translate(i);
+        Rotate(i, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        Scale(i);
+        Transform(i, m_Cube);
+    }
+
+    // Add Bumpers
+    bumpers.push_back(new RTRCyclinder(38.0f, 8.0f, 8.0f, glm::vec3(-7.7f, 1.0f, -2.0f), glm::vec3(0.5f, 0.5f, 0.5f)));
+    bumpers.push_back(new RTRCyclinder(38.0f, 8.0f, 8.0f, glm::vec3(3.7f, 1.0f, 4.0f), glm::vec3(0.5f, 0.5f, 0.5f)));
+
+    for (auto i : bumpers)
+    {
+        i->Init();
+        i->textureID = textures.at(5);
+        i->reflect = 0.6f;
+
+        Translate(i);
+        Rotate(i, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        Scale(i);
+        Transform(i, m_Cube);
+    }
+
+
+    // Create Uniform Grid -> walls/Flippers
+    grid = new RTRGrid();
+    grid->init(25.0f, 3.0f);
+
+    for (auto flipper : flippers)
+        grid->insert(flipper);
+
+    for (auto wall : walls)
+        grid->insert(wall);
+
+    for (auto pog : pogs)
+        grid->insert(pog);
+
+    for (auto bump : bumpers)
+        grid->insert(bump);
 
     // Create and initialise skybox
     m_SkyBox = new RTRSkybox();
@@ -143,10 +198,22 @@ void MainApp::Done()
     {
         walls.at(i)->End(); delete walls.at(i);
     }
-    for (int i = 0; i < pegs.size(); i++)
+    for (auto flipper : flippers)
     {
-        pegs.at(i)->End(); delete pegs.at(i);
+        flipper->End(); 
+        delete flipper;
     }
+
+    for (auto pog : pogs) 
+    {
+        pog->End(); delete pog;
+    }
+
+    for (auto bump : bumpers)
+    {
+        bump->End(); delete bump;
+    }
+
     m_Console->End(); delete m_Console;
     m_SkyBox->End(); delete m_SkyBox;
     delete m_DefaultShader;
@@ -156,10 +223,70 @@ void MainApp::Done()
 
 bool MainApp::Tick()
 {
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
     m_QuitApp = false;
     CheckInput();
-    UpdateState(m_TimeDelta);
+    
+    UpdateTimeState();
+    UpdateCameraState();
+    
+    if (!m_Paused)
+        UpdateState();
+    
     RenderFrame();
+
+    if (m_DebugGrid)
+        grid->debug(m_ProjectionMatrix, m_ViewMatrix, m_Cube->vertices);
+    
+    for (auto ball : balls) 
+    {
+        if (m_VelocityVector) 
+        {
+            ((RTRSphere*) ball)->debug(m_ProjectionMatrix, m_ViewMatrix);
+        }
+    }
+
+    if (m_DebugBounding)
+    {
+        m_Cube->debug(m_ProjectionMatrix, m_ViewMatrix);
+
+        for (auto wall : walls)
+        {
+            wall->debug(m_ProjectionMatrix, m_ViewMatrix);
+        }
+
+        for (auto ball : balls)
+        {
+            ball->debug(m_ProjectionMatrix, m_ViewMatrix);
+        }
+
+        for (auto flip : flippers)
+        {
+            flip->debug(m_ProjectionMatrix, m_ViewMatrix);
+        }
+    }
+
+    for (int i = 0; i < collisions.size(); i++) 
+    {
+        auto collide = collisions.at(i);
+        if (!m_Paused) 
+        {
+            collide->tick(delta);
+        }
+        if (m_DebugCollisions) 
+        {
+            collide->debug(m_ProjectionMatrix, m_ViewMatrix);
+        }
+
+        if (collide->isDone()) 
+        {
+            delete collide;
+            collisions.erase(collisions.begin() + i);
+        }
+    }
+
     return m_QuitApp;
 }
 
@@ -183,9 +310,10 @@ void MainApp::CheckInput()
                     case SDLK_UP: m_TiltingUp = true; break;
                     case SDLK_DOWN: m_TiltingDown = true; break;
                     case SDLK_SPACE: m_Paused = !m_Paused; break;
-                    case SDLK_RETURN: m_AddBall = true; break;
-                    case SDLK_COMMA: m_LeftPegTurning = true; break;
-                    case SDLK_PERIOD: m_RightPegTurning = true; break;
+                    case SDLK_RETURN: add_ball(); break;
+                    case SDLK_COMMA: m_LeftFlipperTurning = true; break;
+                    case SDLK_PERIOD: m_RightFlipperTurning = true; break;
+                    case SDLK_LSHIFT: m_SlowMo = true; break;   
                 }
                 break;
             case SDL_KEYUP:
@@ -199,113 +327,121 @@ void MainApp::CheckInput()
                     case SDLK_UP: m_TiltingUp = false; break;
                     case SDLK_DOWN: m_TiltingDown = false; break;
                     case SDLK_RETURN: m_AddBall = false; break;
-                    case SDLK_COMMA: m_LeftPegTurning = false; break;
-                    case SDLK_PERIOD: m_RightPegTurning = false; break;
+                    case SDLK_COMMA: m_LeftFlipperTurning = false; break;
+                    case SDLK_PERIOD: m_RightFlipperTurning = false; break;
+                    case SDLK_LSHIFT: m_SlowMo = false; break;
+                    case SDLK_z: m_DebugGrid = !m_DebugGrid; break;
+                    case SDLK_x: m_VelocityVector = !m_VelocityVector; break;
+                    case SDLK_c: m_DebugBounding = !m_DebugBounding; break;
+                    case SDLK_v: m_DebugCollisions = !m_DebugCollisions; break;
                 }
                 break;
         }
     }
 }
 
-void MainApp::UpdateState(unsigned int td_milli)
+void MainApp::UpdateState()
 {
-    float delta = m_TimeDelta / 1000.0f;
-    float a1 = 0.0f;
-    float a2 = 0.0f;
+    UpdateFlipperState(flippers.at(0), m_LeftFlipperTurning, m_LeftFlipper, m_FlipperMin, m_FlipperMax);
+    UpdateFlipperState(flippers.at(1), m_RightFlipperTurning, m_RightFlipper, -m_FlipperMin, -m_FlipperMax);
 
+    UpdateBallState();
+}
+
+void MainApp::UpdateTimeState()
+{
+    delta = m_TimeDelta / 1000.0f;
+
+    if (m_SlowMo)
+        delta /= 16.0f;
+}
+
+void MainApp::UpdateCameraState()
+{
     // Update camera position based on keybard state checked earlier and saved
-    if (m_MovingForward == true) m_Camera->MoveForward(td_milli);
-    if (m_MovingBackward == true) m_Camera->MoveBackward(td_milli);
-    if (m_TurningLeft == true) m_Camera->TurnLeft(td_milli);
-    if (m_TurningRight == true) m_Camera->TurnRight(td_milli);
-    if (m_StrafingLeft == true) m_Camera->StrafeLeft(td_milli);
-    if (m_StrafingRight == true) m_Camera->StrafeRight(td_milli);
-    if (m_TiltingUp == true) m_Camera->TiltUp(td_milli);
-    if (m_TiltingDown == true) m_Camera->TiltDown(td_milli);
-    if (m_AddBall == true) add_ball();
+    if (m_MovingForward)  m_Camera->MoveForward(m_TimeDelta);
+    if (m_MovingBackward) m_Camera->MoveBackward(m_TimeDelta);
+    if (m_TurningLeft)    m_Camera->TurnLeft(m_TimeDelta);
+    if (m_TurningRight)   m_Camera->TurnRight(m_TimeDelta);
+    if (m_StrafingLeft)   m_Camera->StrafeLeft(m_TimeDelta);
+    if (m_StrafingRight)  m_Camera->StrafeRight(m_TimeDelta);
+    if (m_TiltingUp)      m_Camera->TiltUp(m_TimeDelta);
+    if (m_TiltingDown)    m_Camera->TiltDown(m_TimeDelta);
 
     // Update directional camera to align with camera forward direction
     m_LightingModel->GetLight(0)->Direction = m_Camera->m_Front;
 
     // Setup Model and View matrices
     m_ViewMatrix = m_Camera->GetViewMatrix();
+}
 
-    if (!m_Paused && balls.size() > 0) 
+void MainApp::UpdateBallState()
+{
+    // Reinit Grid
+    delete grid_ball;
+    grid_ball = new RTRGrid();
+    grid_ball->init(25.0f, 3.0f);
+    for (auto ball : balls)
+        grid_ball->insert(ball);
+
+    delete grid;
+    grid = new RTRGrid();
+    grid->init(25.0f, 3.0f);
+
+    for (auto flipper : flippers)
+        grid->insert(flipper);
+
+    for (auto wall : walls)
+        grid->insert(wall);
+
+    for (auto pog : pogs)
+        grid->insert(pog);
+
+    for (auto bump : bumpers)
+        grid->insert(bump);
+
+    // Check Collisions
+    for (int i = 0; i < balls.size(); i++)
     {
-        // Check Collisions
-        for (int i = 0; i < balls.size(); i++) 
+        RTRObject* ball = balls.at(i);
+
+        // Apply Velocity to Ball
+        ball->movement->velocity += ball->movement->gravity * delta;
+        ball->position += ball->movement->velocity * delta;
+
+        // Check Ball Collision with Floor
+        if (physics.SphereOBB_Detection((RTRSphere*)ball, (RTRCube*)m_Cube))
         {
-            balls.at(i)->movement->velocity += balls.at(i)->movement->gravity * delta;
-            balls.at(i)->position += balls.at(i)->movement->velocity * delta;
-
-            // Sphere -> Board Detection Collision and Resolution
-            if (physics.SphereOBB_Detection((RTRSphere*)balls.at(i), (RTRCube*)m_Cube))
-            {
-                physics.SphereOBB_Resolution((RTRSphere*)balls.at(i), (RTRCube*)m_Cube);
-            }
-
-            // Sphere -> Walls Detection Collision and Resolution
-            for (int j = 0; j < walls.size(); j++)
-            {
-                if (physics.SphereOBB_Detection((RTRSphere*)balls.at(i), m_Cube, (RTRCube*)walls.at(j)))
-                {
-                    physics.SphereOBB_Resolution((RTRSphere*)balls.at(i), m_Cube, (RTRCube*)walls.at(j));
-                }
-            }
-
-            for (int j = 0; j < balls.size(); j++) 
-            {
-                if (physics.SphereSphere_Detection(balls.at(i), balls.at(j)) && balls.at(i) != balls.at(j)) 
-                {
-                    physics.SphereSphere_Resolution(balls.at(i), balls.at(j));
-                }
-            }
-        }
-    }
-
-    if (!m_Paused) 
-    {
-        // Check Peg Movement
-        if (m_LeftPegTurning)
-        {
-            a1 += 1.0f * delta;
-            if (a1 < glm::radians(80.0f)) 
-            {
-                Rotate(pegs.at(0), a1, glm::vec3(0.0f, 1.0f, 0.0f));
-                Transform(pegs.at(0), m_Cube);
-            }
-        }
-        else
-        {
-            a1 -= 1.0f * delta;
-            if (a1 > glm::radians(-130.0f)) 
-            {
-                Rotate(pegs.at(0), a1, glm::vec3(0.0f, 1.0f, 0.0f));
-                Transform(pegs.at(0), m_Cube);
-            }
+            physics.SphereOBB_Resolution((RTRSphere*)ball, (RTRCube*)m_Cube);
         }
 
-        // Check Peg Movement
-        if (m_RightPegTurning)
+        // Uniform Grid Collision
+        grid->check_collision(ball, m_Cube);
+        grid_ball->check_sphere_collision(ball, collisions);
+
+        if (ball->position.y < -25.0f)
         {
-            a2 -= 1.0f * delta;
-            Rotate(pegs.at(1), a2, glm::vec3(0.0f, 1.0f, 0.0f));
-            Transform(pegs.at(1), m_Cube);
-        }
-        else
-        {
-            a2 += 1.0f * delta;
-            Rotate(pegs.at(1), a2, glm::vec3(0.0f, 1.0f, 0.0f));
-            Transform(pegs.at(1), m_Cube);
+            delete ball;
+            balls.erase(balls.begin() + i);
         }
     }
 }
 
+void MainApp::UpdateFlipperState(RTRObject* flipper, bool isTurning, float &flipperDelta, float flipperMin, float flipperMax)
+{
+    float speed = delta * m_FlipperSpeed;
+
+    flipperDelta += isTurning ? speed : -speed;
+    flipperDelta = glm::clamp(flipperDelta, 0.0f, 1.0f);
+
+    SetRotation(flipper, glm::radians(Lerp(flipperMin, flipperMax, flipperDelta)), glm::vec3(0.0f, 1.0f, 0.0f));
+    Transform(flipper, m_Cube);
+
+    std::cout.precision(17);
+}
+
 void MainApp::RenderFrame()
 {
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
     // Render the shaded cube using the default blinn-phong shader
     glUseProgram(m_DefaultShader->GetId());
     m_DefaultShader->SetFloat("u_CurTime", (float)m_CurTime);
@@ -315,12 +451,16 @@ void MainApp::RenderFrame()
     m_DefaultShader->SetCamera("u_Camera", *m_Camera);
     m_DefaultShader->SetLightingModel(*m_LightingModel);
     m_DefaultShader->SetMat4("u_ModelMatrix", m_Cube->model_matrix);
+    m_DefaultShader->SetInt("u_SkyBox", 0);
+    m_DefaultShader->SetFloat("u_Reflect", m_Cube->reflect);
     m_Cube->Render(m_DefaultShader);
 
     // Render Walls
     for (int i = 0; i < walls.size(); i++) 
     {
+        walls.at(i)->reflect = 0.2f;
         m_DefaultShader->SetMat4("u_ModelMatrix", walls.at(i)->model_matrix);
+        m_DefaultShader->SetFloat("u_Reflect", walls.at(i)->reflect);
         walls.at(i)->Render(m_DefaultShader);
     }
 
@@ -329,14 +469,32 @@ void MainApp::RenderFrame()
     {
         balls.at(i)->model_matrix = glm::translate(m_ModelMatrix, balls.at(i)->position);
         m_DefaultShader->SetMat4("u_ModelMatrix", balls.at(i)->model_matrix);
+        m_DefaultShader->SetFloat("u_Reflect", balls.at(i)->reflect);
         balls.at(i)->Render(m_DefaultShader);
     }
 
     // Render Pegs
-    for (int i = 0; i < pegs.size(); i++) 
+    for (auto flipper : flippers) 
     {
-        m_DefaultShader->SetMat4("u_ModelMatrix", pegs.at(i)->model_matrix);
-        pegs.at(i)->Render(m_DefaultShader);
+        m_DefaultShader->SetMat4("u_ModelMatrix", flipper->model_matrix);
+        m_DefaultShader->SetFloat("u_Reflect", flipper->reflect);
+        flipper->Render(m_DefaultShader);
+    }
+
+    // Render Pogs
+    for (auto pog : pogs) 
+    {
+        m_DefaultShader->SetMat4("u_ModelMatrix", pog->model_matrix);
+        m_DefaultShader->SetFloat("u_Reflect", pog->reflect);
+        pog->Render(m_DefaultShader);
+    }
+
+    // Render Bumpers
+    for (auto bump : bumpers)
+    {
+        m_DefaultShader->SetMat4("u_ModelMatrix", bump->model_matrix);
+        m_DefaultShader->SetFloat("u_Reflect", bump->reflect);
+        bump->Render(m_DefaultShader);
     }
 
     // Skybox
@@ -348,9 +506,6 @@ void MainApp::RenderFrame()
     m_Console->Render("DEBUG", m_FPS,
         m_Camera->m_Position.x, m_Camera->m_Position.y, m_Camera->m_Position.z,
         m_Camera->m_Yaw, m_Camera->m_Pitch, m_Paused, balls.size());
-
-    // Swap buffers
-    SDL_GL_SwapWindow(m_SDLWindow);
 }
 
 void MainApp::add_ball()
@@ -360,9 +515,15 @@ void MainApp::add_ball()
         RTRObject* m_Sphere = new RTRSphere();
         m_Sphere->Init();
         m_Sphere->textureID = textures.at(2);
+        m_Sphere->reflect = 0.5f;
         m_Sphere->movement->velocity = glm::mat3(m_Cube->orientation_matrix) * glm::vec3(0.0f, 0.0f, -50.0f);
         balls.push_back(m_Sphere);
     }
+}
+
+float MainApp::Lerp(float a, float b, float t)
+{
+    return (1.0f - t) * a + t * b;
 }
 
 //-----------------------------------------------------------------------------
